@@ -59,9 +59,6 @@ func cmdInit(opt *InitOpt) (err error) {
 	}
 
 	// Prepare directories.
-	if err = prepareDirectory(opt.Dest); err != nil {
-		return
-	}
 	if err = prepareDirectory(opt.Brew); err != nil {
 		return
 	}

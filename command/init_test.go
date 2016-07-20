@@ -3,7 +3,6 @@ package command
 import (
 	"io/ioutil"
 	"os"
-	"strings"
 	"testing"
 )
 
@@ -59,51 +58,5 @@ func TestPrepareDirectory(t *testing.T) {
 	if err = prepareDirectory(fp.Name()); err != nil {
 		t.Error(err.Error())
 	}
-
-}
-
-// TestMakefile tests generated Makefile contains a name given as a parameter.
-func TestMakefile(t *testing.T) {
-
-	param := MakefileParam{
-		Dest: "test",
-	}
-
-	data, err := makefile(&param)
-	if err != nil {
-		t.Error(err.Error())
-		return
-	}
-
-	if !strings.Contains(string(data), "-d=test") {
-		t.Errorf("Generated Makefile was wrong.\n%s", string(data))
-	}
-
-}
-
-func TestBrewfile(t *testing.T) {
-
-	param := TemplateRbParam{
-		Package:  "test",
-		UserName: "abcde",
-	}
-
-	data, err := brewfile(&param)
-	if err != nil {
-		t.Error(err.Error())
-		return
-	}
-
-	res := string(data)
-	if !strings.Contains(res, "class Test") {
-		t.Error("Generated file has wrong class name.")
-	}
-	if !strings.Contains(res, "https://github.com/abcde/test") {
-		t.Error("Generated file has wrong URL.")
-	}
-	if !strings.Contains(res, "bin.install \"test\"") {
-		t.Error("Generated file has wrong install command.")
-	}
-	t.Log(res)
 
 }
