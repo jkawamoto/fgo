@@ -1,6 +1,18 @@
 package command
 
-import "github.com/urfave/cli"
+import (
+	"fmt"
+	"io"
+	"io/ioutil"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"strings"
+
+	"github.com/tcnksm/go-gitconfig"
+	"github.com/ttacon/chalk"
+	"github.com/urfave/cli"
+)
 
 // BuildOpt defines options for cmdInit.
 type BuildOpt struct {
@@ -8,16 +20,8 @@ type BuildOpt struct {
 	Dest string
 	// Directory to store brew file
 	Brew string
-
+	// Version string.
 	Version string
-}
-
-type BrewParam struct {
-	Version     string
-	FileName64  string
-	FileName386 string
-	Hash64      string
-	Hash386     string
 }
 
 func CmdBuild(c *cli.Context) error {
@@ -43,20 +47,86 @@ func CmdBuild(c *cli.Context) error {
 
 }
 
-func cmdBuild(opt *BuildOpt) error {
+func cmdBuild(opt *BuildOpt) (err error) {
 
 	// Build and upload via make.
+	fmt.Println(chalk.Bold.TextStyle("Building binaries."))
+	if err = build(opt.Version); err != nil {
+		return
+	}
 
-	return nil
+	fmt.Println(chalk.Bold.TextStyle("Updating brew formula."))
+	return updateFormula(opt.Dest, opt.Brew, opt.Version)
+
 }
 
-// func make(tag string) {
-//
-// 	var cmd *exec.Cmd
-// 	if tag != "" {
-// 		cmd = exec.Command("make", "build", "release")
-// 	} else {
-//
-// 	}
-//
-// }
+func build(version string) (err error) {
+
+	var cmd *exec.Cmd
+	if version != "" {
+		cmd = exec.Command("make", "build", "release", fmt.Sprintf("VERSION=%s", version))
+	} else {
+		cmd = exec.Command("make", "build")
+	}
+
+	stdout, err := cmd.StdoutPipe()
+	if err != nil {
+		return
+	}
+	go io.Copy(os.Stdout, stdout)
+
+	stderr, err := cmd.StderrPipe()
+	if err != nil {
+		return
+	}
+	go io.Copy(os.Stderr, stderr)
+
+	return cmd.Run()
+
+}
+
+func updateFormula(pkg, brew, version string) (err error) {
+
+	repo, err := gitconfig.Repository()
+	if err != nil {
+		return
+	}
+
+	if version == "" {
+		version = "snapshot"
+	}
+
+	param := Formula{
+		Version: version,
+	}
+
+	glob := filepath.Join(pkg, version, "*darwin*.zip")
+	matches, err := filepath.Glob(glob)
+	if err != nil {
+		return
+	}
+	for _, f := range matches {
+		switch {
+		case strings.Contains(f, "386"):
+			param.FileName386 = filepath.Base(f)
+			param.Hash386, err = Sha256(f)
+			if err != nil {
+				return
+			}
+
+		case strings.Contains(f, "amd64"):
+			param.FileName64 = filepath.Base(f)
+			param.Hash64, err = Sha256(f)
+			if err != nil {
+				return
+			}
+		}
+	}
+
+	data, err := param.Generate(filepath.Join(brew, fmt.Sprintf("%s.rb.template", repo)))
+	if err != nil {
+		return
+	}
+	return ioutil.WriteFile(filepath.Join(brew, fmt.Sprintf("%s.rb", repo)), data, 0644)
+
+}

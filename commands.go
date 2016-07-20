@@ -22,8 +22,6 @@ var GlobalFlags = []cli.Flag{
 	},
 }
 
-// TODO: Main command takes version name.
-
 // Commands defines sub commands.
 var Commands = []cli.Command{
 	{
@@ -31,7 +29,12 @@ var Commands = []cli.Command{
 		Usage:     "create Makefile and other related directories.",
 		ArgsUsage: "[username]",
 		Action:    command.CmdInit,
-		Flags:     []cli.Flag{},
+	},
+	{
+		Name:      "build",
+		Usage:     "build binaries, upload them, an update brew formula.",
+		ArgsUsage: "[version]",
+		Action:    command.CmdBuild,
 	},
 }
 
