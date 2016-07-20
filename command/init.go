@@ -43,13 +43,20 @@ func CmdInit(c *cli.Context) error {
 	}
 
 	if err := cmdInit(&opt); err != nil {
-		return cli.NewExitError(err.Error(), 1)
+		return cli.NewExitError(chalk.Red.Color(err.Error()), 1)
 	}
 	return nil
 
 }
 
 func cmdInit(opt *InitOpt) (err error) {
+
+	if opt.UserName == "" {
+		opt.UserName, err = gitconfig.Username()
+		if err != nil {
+			return fmt.Errorf("Cannot find user name (%s)", err.Error())
+		}
+	}
 
 	// Prepare directories.
 	if err = prepareDirectory(opt.Dest); err != nil {
@@ -73,13 +80,9 @@ func cmdInit(opt *InitOpt) (err error) {
 	if err != nil {
 		return
 	}
-	username, err := gitconfig.Username()
-	if err != nil {
-		return
-	}
-	err = createResource(filepath.Join(opt.Brew, fmt.Sprintf("%s.rb", repo)), &Formula{
+	err = createResource(filepath.Join(opt.Brew, fmt.Sprintf("%s.rb.template", repo)), &Formula{
 		Package:  repo,
-		UserName: username,
+		UserName: opt.UserName,
 	})
 	if err != nil {
 		return
@@ -93,11 +96,9 @@ func cmdInit(opt *InitOpt) (err error) {
 func prepareDirectory(path string) error {
 
 	if info, exist := os.Stat(path); exist == nil && !info.IsDir() {
-		return fmt.Errorf(chalk.Red.Color("Cannot make directory %s."), path)
+		return fmt.Errorf("Cannot make directory %s", path)
 	} else if err := os.MkdirAll(path, 0755); err != nil {
-		return fmt.Errorf(
-			chalk.Red.Color("Cannot make directory %s. (%s)"),
-			path, err.Error())
+		return fmt.Errorf("Cannot make directory %s (%s)", path, err.Error())
 	}
 	return nil
 
@@ -106,7 +107,7 @@ func prepareDirectory(path string) error {
 func createResource(path string, data Generater) (err error) {
 
 	if _, exist := os.Stat(path); exist == nil {
-		return fmt.Errorf(chalk.Red.Color("%s already exists."), path)
+		return fmt.Errorf("%s already exists", path)
 	}
 	buf, err := data.Generate()
 	if err != nil {
