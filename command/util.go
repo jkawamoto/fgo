@@ -2,11 +2,42 @@ package command
 
 import (
 	"bytes"
+	"crypto/sha256"
+	"encoding/hex"
+	"io/ioutil"
+	"os"
 	"strings"
 	"text/template"
 )
 
-func generate(assetName string, param interface{}) (res []byte, err error) {
+func generateFromAsset(assetName string, param interface{}) (res []byte, err error) {
+
+	data, err := Asset(assetName)
+	if err != nil {
+		return
+	}
+	return generate(data, param)
+
+}
+
+func generateFromFile(path string, param interface{}) (res []byte, err error) {
+
+	fp, err := os.Open(path)
+	if err != nil {
+		return
+	}
+	defer fp.Close()
+
+	data, err := ioutil.ReadAll(fp)
+	if err != nil {
+		return
+	}
+
+	return generate(data, param)
+
+}
+
+func generate(data []byte, param interface{}) (res []byte, err error) {
 
 	funcMap := template.FuncMap{
 		"Title":   strings.Title,
@@ -14,10 +45,6 @@ func generate(assetName string, param interface{}) (res []byte, err error) {
 		"ToLower": strings.ToLower,
 	}
 
-	data, err := Asset(assetName)
-	if err != nil {
-		return
-	}
 	temp, err := template.New("").Funcs(funcMap).Parse(string(data))
 	if err != nil {
 		return
@@ -29,6 +56,25 @@ func generate(assetName string, param interface{}) (res []byte, err error) {
 	}
 
 	res = buf.Bytes()
+	return
+
+}
+
+func Sha256(path string) (res string, err error) {
+
+	fp, err := os.Open(path)
+	if err != nil {
+		return
+	}
+	defer fp.Close()
+
+	data, err := ioutil.ReadAll(fp)
+	if err != nil {
+		return
+	}
+
+	bytes := sha256.Sum256(data)
+	res = hex.EncodeToString(bytes[:])
 	return
 
 }

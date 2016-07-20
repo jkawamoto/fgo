@@ -77,7 +77,7 @@ func cmdInit(opt *InitOpt) (err error) {
 	if err != nil {
 		return
 	}
-	err = createResource(filepath.Join(opt.Brew, fmt.Sprintf("%s.rb.template", repo)), &Formula{
+	err = createResource(filepath.Join(opt.Brew, fmt.Sprintf("%s.rb.template", repo)), &FormulaTemplate{
 		Package:  repo,
 		UserName: opt.UserName,
 	})

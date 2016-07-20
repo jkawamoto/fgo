@@ -12,6 +12,6 @@ type Makefile struct {
 
 func (m *Makefile) Generate() (res []byte, err error) {
 
-	return generate(MakefileAsset, m)
+	return generateFromAsset(MakefileAsset, m)
 
 }
