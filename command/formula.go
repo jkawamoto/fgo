@@ -1,15 +1,29 @@
 package command
 
-// FormulaAsset defines the asset name of a formula template.
-const FormulaAsset = "assets/formula.rb"
+// FormulaTemplateAsset defines the asset name of a formula template.
+const FormulaTemplateAsset = "assets/formula.rb"
 
-type Formula struct {
+type FormulaTemplate struct {
 	Package  string
 	UserName string
 }
 
-func (f *Formula) Generate() (res []byte, err error) {
+type Formula struct {
+	Version     string
+	FileName64  string
+	FileName386 string
+	Hash64      string
+	Hash386     string
+}
 
-	return generate(FormulaAsset, f)
+func (f *FormulaTemplate) Generate() (res []byte, err error) {
+
+	return generateFromAsset(FormulaTemplateAsset, f)
+
+}
+
+func (f *Formula) Generate(path string) (ref []byte, err error) {
+
+	return generateFromFile(path, f)
 
 }

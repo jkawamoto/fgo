@@ -5,9 +5,9 @@ import (
 	"testing"
 )
 
-func TestFormula(t *testing.T) {
+func TestFormulaTemplate(t *testing.T) {
 
-	param := Formula{
+	param := FormulaTemplate{
 		Package:  "test",
 		UserName: "abcde",
 	}
