@@ -1,3 +1,12 @@
+#
+# assets/formula.go
+#
+# Copyright (c) 2016 Junpei Kawamoto
+#
+# This software is released under the MIT License.
+#
+# http://opensource.org/licenses/mit-license.php
+#
 class {{.Package | Title}} < Formula
   desc ""
   homepage "https://github.com/{{.UserName}}/{{.Package}}"
