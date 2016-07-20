@@ -22,3 +22,9 @@ build:
 .PHONY: release
 release:
 	ghr  -u jkawamoto  v$(VERSION) pkg/$(VERSION)
+
+.PHONY: get-deps
+get-deps:
+	go get github.com/tcnksm/go-gitconfig
+	go get github.com/ttacon/chalk
+	go get github.com/urfave/cli

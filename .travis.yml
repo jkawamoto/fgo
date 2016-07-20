@@ -1,4 +1,7 @@
 language: go
-
+go:
+- tip
+install:
+- make get-deps
 script:
- - go test -v
+- go test -v
