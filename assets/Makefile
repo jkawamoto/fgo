@@ -17,4 +17,4 @@ build:
 
 .PHONY: release
 release:
-	ghr {{if .UserName}} -u {{.UserName}} {{end}} v$(VERSIOM) pkg/$(VERSIOM)
+	ghr {{if .UserName}} -u {{.UserName}} {{end}} v$(VERSION) pkg/$(VERSION)

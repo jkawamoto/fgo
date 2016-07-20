@@ -11,10 +11,14 @@ VERSION = snapshot
 
 default: build
 
+.PHONY: asset
+asset:
+	go-bindata -pkg command -o command/assets.go assets
+
 .PHONY: build
 build:
 	goxc -d=pkg -pv=$(VERSION) -os="darwin"
 
 .PHONY: release
 release:
-	ghr  -u jkawamoto  v$(VERSIOM) pkg/$(VERSIOM)
+	ghr  -u jkawamoto  v$(VERSION) pkg/$(VERSION)
