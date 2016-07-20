@@ -1,0 +1,19 @@
+engines:
+  fixme:
+    enabled: true
+    config:
+      strings:
+      - FIXME
+      - BUG
+      - TODO
+  gofmt:
+    enabled: true
+  golint:
+    enabled: true
+  govet:
+    enabled: true
+ratings:
+  paths:
+    - "**.go"
+exclude_paths:
+- "**_test.go"
