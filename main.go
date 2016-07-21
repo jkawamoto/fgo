@@ -13,6 +13,7 @@ package main
 import (
 	"os"
 
+	"github.com/jkawamoto/fgo/command"
 	"github.com/urfave/cli"
 )
 

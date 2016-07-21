@@ -23,12 +23,12 @@ var GlobalFlags = []cli.Flag{
 	cli.StringFlag{
 		Name:  "dest, d",
 		Value: "pkg",
-		Usage: "directory `NAME` to store package files",
+		Usage: "overwrite directory `NAME` to store package files.",
 	},
 	cli.StringFlag{
 		Name:  "brew, b",
 		Value: "brew",
-		Usage: "directory `NAME` to store brew file",
+		Usage: "overwrite directory `NAME` to store homebrew formula.",
 	},
 }
 
