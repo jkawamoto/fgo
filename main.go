@@ -13,6 +13,7 @@ package main
 import (
 	"os"
 
+	"github.com/jkawamoto/fgo/command"
 	"github.com/urfave/cli"
 )
 
@@ -28,6 +29,7 @@ func main() {
 	app.Flags = GlobalFlags
 	app.Commands = Commands
 	app.CommandNotFound = CommandNotFound
+	app.Before = command.Prepare
 
 	app.Run(os.Args)
 }

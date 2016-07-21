@@ -11,10 +11,89 @@
 package command
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 	"testing"
 )
+
+func TestCmdInit(t *testing.T) {
+
+	// Move temporary directory.
+	cd, temp, err := _moveToTempDir(".", "test-prepare-directory")
+	if err != nil {
+		t.Error(err.Error())
+		return
+	}
+	defer os.Chdir(cd)
+	fmt.Println(temp)
+	defer os.RemoveAll(temp)
+
+	// Test w/ username.
+	opt := InitOpt{
+		Config: Config{
+			Package:  "test-package",
+			Homebrew: "test-homebrew",
+		},
+		UserName: "test-name",
+	}
+	if err = cmdInit(&opt); err != nil {
+		t.Error(err.Error())
+		return
+	}
+
+	raw, err := ioutil.ReadFile("Makefile")
+	if err != nil {
+		t.Error(err.Error())
+		return
+	}
+	makefile := string(raw)
+	if !strings.Contains(makefile, "goxc -d=test-package") {
+		t.Errorf("Makefile has wrong destination.\n%s\n", makefile)
+	}
+	if !strings.Contains(makefile, "-u test-name") {
+		t.Errorf("Makefile has wrong user name.\n%s\n", makefile)
+	}
+
+	raw, err = ioutil.ReadFile("test-homebrew/fgo.rb.template")
+	if err != nil {
+		t.Error(err.Error())
+		return
+	}
+	formula := string(raw)
+	if !strings.Contains(formula, "https://github.com/test-name/") {
+		t.Errorf("Formula template has wrong user name.\n%s\n", formula)
+	}
+
+	// Test w/o username.
+	// This test should be only run on local computers.
+	if os.Getenv("LOCAL") == "true" {
+
+		os.Remove("Makefile")
+		opt = InitOpt{
+			Config: Config{
+				Package:  "test-package",
+				Homebrew: "test-homebrew",
+			},
+		}
+		if err = cmdInit(&opt); err != nil {
+			t.Error(err.Error())
+			return
+		}
+		raw, err = ioutil.ReadFile("Makefile")
+		if err != nil {
+			t.Error(err.Error())
+			return
+		}
+		makefile = string(raw)
+		if !strings.Contains(makefile, "-u jkawamoto") {
+			t.Errorf("Makefile has wrong user name.\n%s\n", makefile)
+		}
+
+	}
+
+}
 
 // TestPrepareDirectory tests prepareDirectory within the following three cases;
 // 1) creating non existing directory, 2) using existing directory,
@@ -24,16 +103,13 @@ func TestPrepareDirectory(t *testing.T) {
 	var err error
 
 	// Move temporary directory.
-	cd, err := os.Getwd()
+	cd, temp, err := _moveToTempDir("", "test-prepare-directory")
 	if err != nil {
 		t.Error(err.Error())
 		return
 	}
-	if err = os.Chdir(os.TempDir()); err != nil {
-		t.Error(err.Error())
-		return
-	}
 	defer os.Chdir(cd)
+	defer os.RemoveAll(temp)
 
 	t.Log("Test with an existing directory.")
 	target, err := ioutil.TempDir("", "fgo-test")
@@ -68,5 +144,23 @@ func TestPrepareDirectory(t *testing.T) {
 	if err = prepareDirectory(fp.Name()); err != nil {
 		t.Error(err.Error())
 	}
+
+}
+
+func _moveToTempDir(dir, prefix string) (cd, temp string, err error) {
+
+	// Prepare test directory.
+	cd, err = os.Getwd()
+	if err != nil {
+		return
+	}
+
+	temp, err = ioutil.TempDir(dir, prefix)
+	if err != nil {
+		return
+	}
+
+	err = os.Chdir(temp)
+	return
 
 }

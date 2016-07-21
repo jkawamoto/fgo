@@ -24,10 +24,8 @@ import (
 
 // InitOpt defines options for cmdInit.
 type InitOpt struct {
-	// Directory to store package files
-	Dest string
-	// Directory to store brew file
-	Brew string
+	// Configuration
+	Config Config
 	// GitHub user name.
 	UserName string
 }
@@ -36,20 +34,15 @@ type Generater interface {
 	Generate() ([]byte, error)
 }
 
+// CmdInit parses options and run cmdInit.
 func CmdInit(c *cli.Context) error {
 
 	opt := InitOpt{
-		Dest:     c.String("dest"),
-		Brew:     c.String("brew"),
+		Config: Config{
+			Package:  c.String("dest"),
+			Homebrew: c.String("brew"),
+		},
 		UserName: c.Args().First(),
-	}
-
-	// These codes are not necessary but urfave/cli doesn't work.
-	if opt.Dest == "" {
-		opt.Dest = "pkg"
-	}
-	if opt.Brew == "" {
-		opt.Brew = "brew"
 	}
 
 	if err := cmdInit(&opt); err != nil {
@@ -59,23 +52,25 @@ func CmdInit(c *cli.Context) error {
 
 }
 
+// cmdInit defines init command action.
 func cmdInit(opt *InitOpt) (err error) {
 
 	if opt.UserName == "" {
-		opt.UserName, err = gitconfig.Username()
+		opt.UserName, err = gitconfig.GithubUser()
 		if err != nil {
 			return fmt.Errorf("Cannot find user name (%s)", err.Error())
 		}
 	}
 
 	// Prepare directories.
-	if err = prepareDirectory(opt.Brew); err != nil {
+	if err = prepareDirectory(opt.Config.Homebrew); err != nil {
 		return
 	}
 
 	// Check Makefile doesn't exist and create it.
+	fmt.Println(chalk.Bold.TextStyle("Creating Makefile."))
 	err = createResource("Makefile", &Makefile{
-		Dest:     opt.Dest,
+		Dest:     opt.Config.Package,
 		UserName: opt.UserName,
 	})
 	if err != nil {
@@ -87,14 +82,17 @@ func cmdInit(opt *InitOpt) (err error) {
 	if err != nil {
 		return
 	}
-	err = createResource(filepath.Join(opt.Brew, fmt.Sprintf("%s.rb.template", repo)), &FormulaTemplate{
+	fmt.Println(chalk.Bold.TextStyle("Creating a template of homebrew formula."))
+	err = createResource(filepath.Join(opt.Config.Homebrew, fmt.Sprintf("%s.rb.template", repo)), &FormulaTemplate{
 		Package:  repo,
 		UserName: opt.UserName,
 	})
 	if err != nil {
 		fmt.Printf(chalk.Yellow.Color("Cannot create a formula template (%s).\n"), err.Error())
 	}
-	return nil
+
+	fmt.Printf(chalk.Bold.TextStyle("Storing configurations to %s.\n"), ConfigFile)
+	return opt.Config.Save(ConfigFile)
 
 }
 
