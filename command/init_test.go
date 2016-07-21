@@ -56,7 +56,7 @@ func TestPrepareDirectory(t *testing.T) {
 	fp.Close()
 
 	if prepareDirectory(fp.Name()) == nil {
-		t.Error("No error occues when preparing directory with an existing file.")
+		t.Error("No error occurs when preparing directory with an existing file.")
 	}
 
 	if err = os.Remove(fp.Name()); err != nil {

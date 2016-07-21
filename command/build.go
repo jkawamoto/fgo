@@ -42,7 +42,7 @@ func CmdBuild(c *cli.Context) error {
 		Version: c.Args().First(),
 	}
 
-	// These codes are not nessesary but urfave/cli doesn't work.
+	// These codes are not necessary but urfave/cli doesn't work.
 	if opt.Dest == "" {
 		opt.Dest = "pkg"
 	}

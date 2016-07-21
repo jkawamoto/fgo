@@ -44,7 +44,7 @@ func CmdInit(c *cli.Context) error {
 		UserName: c.Args().First(),
 	}
 
-	// These codes are not nessesary but urfave/cli doesn't work.
+	// These codes are not necessary but urfave/cli doesn't work.
 	if opt.Dest == "" {
 		opt.Dest = "pkg"
 	}
@@ -98,7 +98,7 @@ func cmdInit(opt *InitOpt) (err error) {
 
 }
 
-// prepareDirectory creates a dicretory if necessary.
+// prepareDirectory creates a directory if necessary.
 func prepareDirectory(path string) error {
 
 	if info, exist := os.Stat(path); exist == nil && !info.IsDir() {

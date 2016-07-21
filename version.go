@@ -10,5 +10,8 @@
 
 package main
 
+// Name defines the name of this command.
 const Name string = "fgo"
-const Version string = "0.1.0"
+
+// Version defines version number.
+const Version string = "0.1.1"
