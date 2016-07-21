@@ -46,6 +46,12 @@ var Commands = []cli.Command{
 		ArgsUsage: "[version]",
 		Action:    command.CmdBuild,
 	},
+	{
+		Name:      "update",
+		Usage:     "update only brew formula.",
+		ArgsUsage: "version",
+		Action:    command.CmdUpdate,
+	},
 }
 
 // CommandNotFound defines an action when a given command won't be supported.

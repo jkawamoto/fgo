@@ -13,13 +13,9 @@ package command
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"os/exec"
-	"path/filepath"
-	"strings"
 
-	"github.com/tcnksm/go-gitconfig"
 	"github.com/ttacon/chalk"
 	"github.com/urfave/cli"
 )
@@ -65,8 +61,7 @@ func cmdBuild(opt *BuildOpt) (err error) {
 		return
 	}
 
-	fmt.Println(chalk.Bold.TextStyle("Updating brew formula."))
-	return updateFormula(opt.Dest, opt.Brew, opt.Version)
+	return cmdUpdate(opt.Dest, opt.Brew, opt.Version)
 
 }
 
@@ -92,51 +87,5 @@ func build(version string) (err error) {
 	go io.Copy(os.Stderr, stderr)
 
 	return cmd.Run()
-
-}
-
-func updateFormula(pkg, brew, version string) (err error) {
-
-	repo, err := gitconfig.Repository()
-	if err != nil {
-		return
-	}
-
-	if version == "" {
-		version = "snapshot"
-	}
-
-	param := Formula{
-		Version: version,
-	}
-
-	glob := filepath.Join(pkg, version, "*darwin*.zip")
-	matches, err := filepath.Glob(glob)
-	if err != nil {
-		return
-	}
-	for _, f := range matches {
-		switch {
-		case strings.Contains(f, "386"):
-			param.FileName386 = filepath.Base(f)
-			param.Hash386, err = Sha256(f)
-			if err != nil {
-				return
-			}
-
-		case strings.Contains(f, "amd64"):
-			param.FileName64 = filepath.Base(f)
-			param.Hash64, err = Sha256(f)
-			if err != nil {
-				return
-			}
-		}
-	}
-
-	data, err := param.Generate(filepath.Join(brew, fmt.Sprintf("%s.rb.template", repo)))
-	if err != nil {
-		return
-	}
-	return ioutil.WriteFile(filepath.Join(brew, fmt.Sprintf("%s.rb", repo)), data, 0644)
 
 }
