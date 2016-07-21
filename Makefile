@@ -29,6 +29,7 @@ get-deps:
 	go get github.com/tcnksm/go-gitconfig
 	go get github.com/ttacon/chalk
 	go get github.com/urfave/cli
+	go get github.com/naoina/toml
 
 .PHONY: test
 test: asset
