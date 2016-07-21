@@ -79,7 +79,7 @@ func cmdInit(opt *InitOpt) (err error) {
 		UserName: opt.UserName,
 	})
 	if err != nil {
-		return
+		fmt.Printf(chalk.Yellow.Color("Cannot create Makefile (%s).\n"), err.Error())
 	}
 
 	// Check brew rb file doesn't exist and create it.
@@ -92,10 +92,9 @@ func cmdInit(opt *InitOpt) (err error) {
 		UserName: opt.UserName,
 	})
 	if err != nil {
-		return
+		fmt.Printf(chalk.Yellow.Color("Cannot create a formula template (%s).\n"), err.Error())
 	}
-
-	return
+	return nil
 
 }
 
