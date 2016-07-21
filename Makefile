@@ -16,7 +16,7 @@ asset:
 	go-bindata -pkg command -o command/assets.go assets
 
 .PHONY: build
-build:
+build: asset
 	goxc -d=pkg -pv=$(VERSION) -os="darwin"
 
 .PHONY: release
