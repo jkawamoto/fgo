@@ -1,3 +1,8 @@
+## 0.2.1 (2016-07-23)
+### Fixed
+- Problems of parsing global options.
+
+
 ## 0.2.0 (2016-07-21)
 ### New features
 - `fgo update` command only updates homebrew formula,
