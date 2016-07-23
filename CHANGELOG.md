@@ -1,3 +1,9 @@
+## 0.2.2 (2016-07-23)
+### Fixed
+- `Asset/formula.rb` has wrong links,
+- Update command doesn't check global flags.
+
+
 ## 0.2.1 (2016-07-23)
 ### Fixed
 - Problems of parsing global options.
@@ -18,5 +24,4 @@ so that uses can re-run this command without deleting generated files.
 
 
 ## 0.1.0 (2016-07-20)
-
 Initial release
