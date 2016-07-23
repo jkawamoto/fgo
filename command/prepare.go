@@ -13,6 +13,10 @@ const (
 	DefaultPackageDir = "pkg"
 	// DefaultHomebrewDir defines default homebrew formula directory.
 	DefaultHomebrewDir = "homebrew"
+	// PackageFlag defines the flag name of package option.
+	PackageFlag = "pkg"
+	// HomebrewFlag defines the flag name of homebrew option.
+	HomebrewFlag = "brew"
 )
 
 // Prepare checkes configuration file and loads it if exists.
@@ -37,11 +41,11 @@ func Prepare(c *cli.Context) error {
 	}
 
 	// If configurations are not given, set them.
-	if !c.GlobalIsSet("pkg") {
-		c.GlobalSet("pkg", config.Package)
+	if !c.GlobalIsSet(PackageFlag) {
+		c.GlobalSet(PackageFlag, config.Package)
 	}
-	if !c.GlobalIsSet("brew") {
-		c.GlobalSet("brew", config.Homebrew)
+	if !c.GlobalIsSet(HomebrewFlag) {
+		c.GlobalSet(HomebrewFlag, config.Homebrew)
 	}
 	return nil
 

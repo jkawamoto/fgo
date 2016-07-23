@@ -18,8 +18,8 @@ func CmdUpdate(c *cli.Context) error {
 		return cli.ShowSubcommandHelp(c)
 	}
 
-	pkg := c.GlobalString("dest")
-	brew := c.GlobalString("brew")
+	pkg := c.GlobalString(PackageFlag)
+	brew := c.GlobalString(HomebrewFlag)
 
 	if err := cmdUpdate(pkg, brew, c.Args().First()); err != nil {
 		return cli.NewExitError(err.Error(), 1)
