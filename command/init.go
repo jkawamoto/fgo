@@ -39,8 +39,8 @@ func CmdInit(c *cli.Context) error {
 
 	opt := InitOpt{
 		Config: Config{
-			Package:  c.String("dest"),
-			Homebrew: c.String("brew"),
+			Package:  c.GlobalString("pkg"),
+			Homebrew: c.GlobalString("brew"),
 		},
 		UserName: c.Args().First(),
 	}

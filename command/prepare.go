@@ -37,11 +37,11 @@ func Prepare(c *cli.Context) error {
 	}
 
 	// If configurations are not given, set them.
-	if !c.IsSet("pkg") {
-		c.Set("pkg", config.Package)
+	if !c.GlobalIsSet("pkg") {
+		c.GlobalSet("pkg", config.Package)
 	}
-	if !c.IsSet("brew") {
-		c.Set("brew", config.Homebrew)
+	if !c.GlobalIsSet("brew") {
+		c.GlobalSet("brew", config.Homebrew)
 	}
 	return nil
 
