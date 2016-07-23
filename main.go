@@ -30,6 +30,7 @@ func main() {
 	app.Commands = Commands
 	app.CommandNotFound = CommandNotFound
 	app.Before = command.Prepare
+	app.EnableBashCompletion = true
 
 	app.Run(os.Args)
 }

@@ -21,7 +21,7 @@ import (
 func TestCmdInit(t *testing.T) {
 
 	// Move temporary directory.
-	cd, temp, err := _moveToTempDir(".", "test-prepare-directory")
+	cd, temp, err := _moveToTempDir(".", "test-cmd-init")
 	if err != nil {
 		t.Error(err.Error())
 		return

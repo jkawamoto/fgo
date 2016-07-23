@@ -7,21 +7,27 @@ Formula Go
 
 Build, upload, and create brew formula for golang application.
 
+Requires
+----------
+* make
+* [goxc](https://github.com/laher/goxc)
+* [ghr](https://github.com/tcnksm/ghr)
+
+
 Usage
 ------
 ~~~
-commands [global options] command [arguments...]
+fgo [global options] command [arguments...]
 
 COMMANDS:
-     init    create Makefile and other related directories.
-     build   build binaries, upload them, an update brew formula.
-     update  update only brew formula.
+     init     create Makefile and other related directories.
+     build    build binaries, upload them, an update brew formula.
+     update   update only brew formula.
+     help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --dest NAME, -d NAME  overwrite directory NAME to store package files.
-                         (default: "pkg")
-   --brew NAME, -b NAME  overwrite directory NAME to store homebrew formula.
-                         (default: "brew")
+   --pkg NAME, -p NAME   overwrite directory NAME to store package files. (Default: pkg)
+   --brew NAME, -b NAME  overwrite directory NAME to store homebrew formula. (Default: homebrew)
    --help, -h            show help
    --version, -v         print the version
 ~~~

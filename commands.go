@@ -21,14 +21,12 @@ import (
 // GlobalFlags defines global flags.
 var GlobalFlags = []cli.Flag{
 	cli.StringFlag{
-		Name:  "dest, d",
-		Value: "pkg",
-		Usage: "overwrite directory `NAME` to store package files.",
+		Name:  "pkg, p",
+		Usage: "overwrite directory `NAME` to store package files. (Default: pkg)",
 	},
 	cli.StringFlag{
 		Name:  "brew, b",
-		Value: "brew",
-		Usage: "overwrite directory `NAME` to store homebrew formula.",
+		Usage: "overwrite directory `NAME` to store homebrew formula. (Default: homebrew)",
 	},
 }
 

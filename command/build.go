@@ -22,10 +22,8 @@ import (
 
 // BuildOpt defines options for cmdInit.
 type BuildOpt struct {
-	// Directory to store package files
-	Dest string
-	// Directory to store brew file
-	Brew string
+	// Configuration
+	Config Config
 	// Version string.
 	Version string
 }
@@ -33,17 +31,11 @@ type BuildOpt struct {
 func CmdBuild(c *cli.Context) error {
 
 	opt := BuildOpt{
-		Dest:    c.String("dest"),
-		Brew:    c.String("brew"),
+		Config: Config{
+			Package:  c.GlobalString("pkg"),
+			Homebrew: c.GlobalString("brew"),
+		},
 		Version: c.Args().First(),
-	}
-
-	// These codes are not necessary but urfave/cli doesn't work.
-	if opt.Dest == "" {
-		opt.Dest = "pkg"
-	}
-	if opt.Brew == "" {
-		opt.Brew = "brew"
 	}
 
 	if err := cmdBuild(&opt); err != nil {
@@ -61,7 +53,7 @@ func cmdBuild(opt *BuildOpt) (err error) {
 		return
 	}
 
-	return cmdUpdate(opt.Dest, opt.Brew, opt.Version)
+	return cmdUpdate(opt.Config.Package, opt.Config.Homebrew, opt.Version)
 
 }
 
