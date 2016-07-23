@@ -13,6 +13,7 @@ package command
 // MakefileAsset defines the asset name of Makefile.
 const MakefileAsset = "assets/Makefile"
 
+// Makefile defines variables to generate a Makefile.
 type Makefile struct {
 	// Directory to store package files
 	Dest string
@@ -20,6 +21,7 @@ type Makefile struct {
 	UserName string
 }
 
+// Generate creates a Makefile by given variables.
 func (m *Makefile) Generate() (res []byte, err error) {
 
 	return generateFromAsset(MakefileAsset, m)

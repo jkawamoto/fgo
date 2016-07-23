@@ -32,8 +32,8 @@ func CmdBuild(c *cli.Context) error {
 
 	opt := BuildOpt{
 		Config: Config{
-			Package:  c.GlobalString("pkg"),
-			Homebrew: c.GlobalString("brew"),
+			Package:  c.GlobalString(PackageFlag),
+			Homebrew: c.GlobalString(HomebrewFlag),
 		},
 		Version: c.Args().First(),
 	}
