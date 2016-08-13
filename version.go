@@ -14,4 +14,4 @@ package main
 const Name string = "fgo"
 
 // Version defines version number.
-const Version string = "0.2.2"
+const Version string = "0.2.3"

@@ -1,3 +1,8 @@
+## 0.2.3 (2016-08-12)
+### Fixed
+- Deprecated Hardware.is_64_bit? in formula.rb.
+
+
 ## 0.2.2 (2016-07-23)
 ### Fixed
 - `Asset/formula.rb` has wrong links,
