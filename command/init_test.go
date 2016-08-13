@@ -26,9 +26,9 @@ func TestCmdInit(t *testing.T) {
 		t.Error(err.Error())
 		return
 	}
-	defer os.Chdir(cd)
 	fmt.Println(temp)
 	defer os.RemoveAll(temp)
+	defer os.Chdir(cd)
 
 	// Test w/ username.
 	opt := InitOpt{
