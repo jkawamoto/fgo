@@ -12,7 +12,7 @@ class {{.Package | Title}} < Formula
   homepage "https://github.com/{{.UserName}}/{{.Package}}"
   version "{{"{{.Version}}"}}"
 
-  if Hardware.is_64_bit?
+  if Hardware::CPU.is_64_bit?
     url "https://github.com/{{.UserName}}/{{.Package}}/releases/download/v{{"{{.Version}}"}}/{{"{{.FileName64}}"}}"
     sha256 "{{"{{.Hash64}}"}}"
   else

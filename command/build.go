@@ -63,6 +63,7 @@ func build(version string) (err error) {
 	if version != "" {
 		cmd = exec.Command("make", "build", "release", fmt.Sprintf("VERSION=%s", version))
 	} else {
+		fmt.Println("Version is not given, set `snapshot`.")
 		cmd = exec.Command("make", "build")
 	}
 
