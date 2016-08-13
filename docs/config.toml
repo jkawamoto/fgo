@@ -1,6 +1,6 @@
 baseurl = "https://jkawamoto.github.io/fgo/"
 languageCode = "en-us"
-title = "fgo"
+title = "Formula Go"
 theme = "github-project-landing-page"
 
 [params]
