@@ -1,0 +1,28 @@
+baseurl = "https://jkawamoto.github.io/fgo/"
+languageCode = "en-us"
+title = "fgo"
+theme = "github-project-landing-page"
+
+[params]
+    Description = "Build, upload, and create brew formula for golang application."
+    AuthorName = "Junpei Kawamoto"
+    AuthorURL = "https://www.jkawamoto.info/"
+    GithubURL = "https://github.com/jkawamoto/fgo"
+
+    GithubRepo = "fgo"
+    GithubOrg = "jkawamoto"
+
+    googleAnalytics = "UA-82315630-1"
+
+    first_color="#f8f8f8"
+    first_border_color="#e7e7e7"
+    first_text_color="#333"
+
+    second_color="white"
+    second_text_color="#333"
+
+    header_color="#f8f8f8"
+    header_text_color="rgb(51, 51, 51)"
+
+    header_link_color="#777"
+    header_link_hover_color="rgb(51, 51, 51)"
