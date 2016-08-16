@@ -1,0 +1,17 @@
+box: debian
+build:
+  steps:
+    - install-packages:
+        packages: git ssh-client
+    # - script:
+    #     name: Install git
+    #     code: |
+    #       apt-get update
+    #       apt-get install git -y
+    - script:
+        name: Prepare submodules
+        code: |-
+          git submodule update --init
+    - arjen/hugo-build:
+        version: "0.15"
+        basedir: docs

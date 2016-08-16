@@ -1,3 +1,4 @@
 [submodule "docs/themes/github-project-landing-page"]
 	path = docs/themes/github-project-landing-page
 	url = https://github.com/jkawamoto/github-project-landing-page.git
+  branch = running
