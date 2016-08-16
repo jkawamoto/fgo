@@ -8,6 +8,7 @@ theme = "github-project-landing-page"
     AuthorName = "Junpei Kawamoto"
     AuthorURL = "https://www.jkawamoto.info/"
     GithubURL = "https://github.com/jkawamoto/fgo"
+    ProfilePicture = "img/fgo.png"
 
     GithubRepo = "fgo"
     GithubOrg = "jkawamoto"
