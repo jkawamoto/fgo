@@ -10,6 +10,11 @@ build:
         basedir: docs
 deploy:
   steps:
-    - lukevivier/gh-pages:
+    - jkawamoto/ghp-import:
         token: $GIT_TOKEN
         basedir: docs/public
+  after-steps:
+    - kobim/notify-pushover:
+        token: $PUSHOVER_APP_TOKEN
+        user: $PUSHOVER_USER_TOKEN
+        title: Finish fgo deploy
