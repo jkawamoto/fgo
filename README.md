@@ -35,4 +35,4 @@ GLOBAL OPTIONS:
 
 License
 =======
-This software is released under the MIT License, see [LICENSE](LICENSE).
+This software is released under the MIT License, see [LICENSE](LICENSES.md).

@@ -1,0 +1,34 @@
+{{ partial "head.html" . }}
+{{ partial "nav.html" . }}
+<section id="services">
+  <div class="content-section-a">
+    <div class="container">
+      <div class="row">
+        <div>
+          <hr class="section-heading-spacer">
+          <div class="clearfix"></div>
+          <h2 class="section-heading">{{ .Title }}</h2>
+          {{ .Content }}
+        </div>
+      </div>
+      <div class="row">
+        {{ "<!-- AdSense -->" | safeHTML }}
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:336px;height:280px"
+             data-ad-client="ca-pub-4734862314145555"
+             data-ad-slot="4875187824"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:336px;height:280px"
+             data-ad-client="ca-pub-4734862314145555"
+             data-ad-slot="4875187824"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+    </div>
+  </div>
+</section>
+{{ partial "footer.html" . }}
