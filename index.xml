@@ -49,6 +49,20 @@ GLOBAL OPTIONS:
    --version, -v         print the version
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;h3 id=&#34;installation:04c6e90faac2675aa89e2176d2eec7d8&#34;&gt;Installation&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ go get github.com/jkawamoto/fgo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;or if you&amp;rsquo;re a &lt;a href=&#34;http://brew.sh/&#34;&gt;Homebrew&lt;/a&gt; user,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ brew tap jkawamoto/fog
+$ brew install fgo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Compiled binaries are also available in
+&lt;a href=&#34;https://github.com/jkawamoto/fgo/releases&#34;&gt;Github&lt;/a&gt;.&lt;/p&gt;
+
 &lt;h3 id=&#34;license:04c6e90faac2675aa89e2176d2eec7d8&#34;&gt;License&lt;/h3&gt;
 
 &lt;p&gt;This software is released under the MIT License, see &lt;a href=&#34;./info/licenses/&#34;&gt;LICENSE&lt;/a&gt;.&lt;/p&gt;
