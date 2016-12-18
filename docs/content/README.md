@@ -37,5 +37,20 @@ GLOBAL OPTIONS:
 ~~~
 
 
+### Installation
+```sh
+$ go get github.com/jkawamoto/fgo
+```
+or if you're a [Homebrew](http://brew.sh/) user,
+
+```sh
+$ brew tap jkawamoto/fog
+$ brew install fgo
+```
+
+Compiled binaries are also available in
+[Github](https://github.com/jkawamoto/fgo/releases).
+
+
 ### License
 This software is released under the MIT License, see [LICENSE](./info/licenses/).
