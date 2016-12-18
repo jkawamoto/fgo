@@ -1,59 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Formula Go</title>
-    <link>https://jkawamoto.github.io/fgo/</link>
-    <description>Recent content on Formula Go</description>
+    <title>Infos on Formula Go</title>
+    <link>https://jkawamoto.github.io/fgo/info/</link>
+    <description>Recent content in Infos on Formula Go</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 17 Dec 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://jkawamoto.github.io/fgo/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>Formula Go</title>
-      <link>https://jkawamoto.github.io/fgo/readme/</link>
-      <pubDate>Sat, 17 Dec 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://jkawamoto.github.io/fgo/readme/</guid>
-      <description>
-
-&lt;p&gt;&lt;a href=&#34;./info/licenses/&#34;&gt;&lt;img src=&#34;https://img.shields.io/badge/license-MIT-blue.svg?style=flat&#34; alt=&#34;MIT License&#34; /&gt;&lt;/a&gt;
-&lt;a href=&#34;https://travis-ci.org/jkawamoto/fgo&#34;&gt;&lt;img src=&#34;https://travis-ci.org/jkawamoto/fgo.svg?branch=master&#34; alt=&#34;Build Status&#34; /&gt;&lt;/a&gt;
-&lt;a href=&#34;https://codeclimate.com/github/jkawamoto/fgo&#34;&gt;&lt;img src=&#34;https://codeclimate.com/github/jkawamoto/fgo/badges/gpa.svg&#34; alt=&#34;Code Climate&#34; /&gt;&lt;/a&gt;
-&lt;a href=&#34;https://github.com/jkawamoto/fgo/releases/tag/v0.2.3&#34;&gt;&lt;img src=&#34;https://img.shields.io/badge/release-0.2.3-brightgreen.svg&#34; alt=&#34;Release&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Build, upload, and create brew formula for golang application.&lt;/p&gt;
-
-&lt;h3 id=&#34;requires:04c6e90faac2675aa89e2176d2eec7d8&#34;&gt;Requires&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;make&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/laher/goxc&#34;&gt;goxc&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/tcnksm/ghr&#34;&gt;ghr&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;usage:04c6e90faac2675aa89e2176d2eec7d8&#34;&gt;Usage&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;fgo [global options] command [arguments...]
-
-COMMANDS:
-     init     create Makefile and other related directories.
-     build    build binaries, upload them, an update brew formula.
-     update   update only brew formula.
-     help, h  Shows a list of commands or help for one command
-
-GLOBAL OPTIONS:
-   --pkg NAME, -p NAME   overwrite directory NAME to store package files. (Default: pkg)
-   --brew NAME, -b NAME  overwrite directory NAME to store homebrew formula. (Default: homebrew)
-   --help, -h            show help
-   --version, -v         print the version
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;license:04c6e90faac2675aa89e2176d2eec7d8&#34;&gt;License&lt;/h3&gt;
-
-&lt;p&gt;This software is released under the MIT License, see &lt;a href=&#34;./info/licenses/&#34;&gt;LICENSE&lt;/a&gt;.&lt;/p&gt;
-</description>
-    </item>
+    <lastBuildDate>Wed, 14 Dec 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://jkawamoto.github.io/fgo/info/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Licenses</title>
