@@ -8,6 +8,9 @@ build:
     - arjen/hugo-build:
         version: "0.15"
         basedir: docs
+    - samueldebruyn/minify:
+        base_dir: docs/public
+        js: false
 deploy:
   steps:
     - jkawamoto/ghp-import:
