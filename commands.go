@@ -35,20 +35,44 @@ var Commands = []cli.Command{
 	{
 		Name:      "init",
 		Usage:     "create Makefile and other related directories.",
-		ArgsUsage: "[username]",
-		Action:    command.CmdInit,
+		ArgsUsage: "[user name] [repository name]",
+		Description: `init command creates a Makefile which will be used to compile your project,
+and a template of homebrew formula. If a Makefile or a template of homebrew
+formula already exist, fgo won't overwrite them.
+
+To create the template of homebrew formula, a user name and a repository name
+in GitHub is required. By default, fgo checks your git configuration to get
+those information but you can given them by the arguments.
+
+If your git configuration doesn't have both information and you don't give them
+as the arguments, this command will skip to create the template. In this case,
+you need to re-run init command after setting git configuration.
+
+You can edit the Makefile and the template of homebrew formula, but build and
+release targets are necessary to run build command.`,
+		Action: command.CmdInit,
 	},
 	{
 		Name:      "build",
 		Usage:     "build binaries, upload them, an update brew formula.",
 		ArgsUsage: "[version]",
-		Action:    command.CmdBuild,
+		Description: `build command runs build and release targets in the Makefile to build your
+software and upload the binary files to GitHub. This command takes an argument,
+version, which specifies the version to be created. If it is omitted, "snapshot"
+will be used and uploading will be skipped.
+
+This command also updates the homebrew formula. After finisshing this command,
+you need to push the updated formula.`,
+		Action: command.CmdBuild,
 	},
 	{
 		Name:      "update",
 		Usage:     "update only brew formula.",
 		ArgsUsage: "version",
-		Action:    command.CmdUpdate,
+		Description: `update command updates the homebrew formula for a given version. build command
+updates the homebrew formula but sometimes you may need to re-update it to a
+specific version. This command do that.`,
+		Action: command.CmdUpdate,
 	},
 }
 
