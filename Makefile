@@ -13,7 +13,7 @@ default: build
 
 .PHONY: asset
 asset:
-	go-bindata -pkg command -o command/assets.go assets
+	go-bindata -pkg command -o command/assets.go -nometadata assets
 
 .PHONY: build
 build: asset
