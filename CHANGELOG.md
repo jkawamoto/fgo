@@ -1,3 +1,8 @@
+## 0.2.4 (2016-12-21)
+### Updated
+- `init` command takes repository name to create a homebrew formula without git configurations.
+
+
 ## 0.2.3 (2016-08-12)
 ### Fixed
 - Deprecated Hardware.is_64_bit? in formula.rb.
