@@ -61,7 +61,7 @@ software and upload the binary files to GitHub. This command takes an argument,
 version, which specifies the version to be created. If it is omitted, "snapshot"
 will be used and uploading will be skipped.
 
-This command also updates the homebrew formula. After finisshing this command,
+This command also updates the homebrew formula. After finishing this command,
 you need to push the updated formula.`,
 		Action: command.CmdBuild,
 	},
