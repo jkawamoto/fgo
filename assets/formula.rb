@@ -1,5 +1,5 @@
 #
-# assets/formula.go
+# assets/formula.rb
 #
 # Copyright (c) 2016 Junpei Kawamoto
 #
