@@ -66,6 +66,11 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 		}
 	}
 
+	// Check binary files are found in local.
+	if param.FileName386 == "" || param.FileName64 == "" {
+		return fmt.Errorf(chalk.Red.Color("Binary files are not found. Run build command instead.\n"))
+	}
+
 	data, err := param.Generate(filepath.Join(brew, fmt.Sprintf("%s.rb.template", repo)))
 	if err != nil {
 		return
