@@ -28,8 +28,11 @@ type InitOpt struct {
 	Config Config
 	// GitHub user name.
 	UserName string
+	// GitHub repository name.
+	Repository string
 }
 
+// Generater is an interface provides Generate method.
 type Generater interface {
 	Generate() ([]byte, error)
 }
@@ -42,7 +45,8 @@ func CmdInit(c *cli.Context) error {
 			Package:  c.GlobalString(PackageFlag),
 			Homebrew: c.GlobalString(HomebrewFlag),
 		},
-		UserName: c.Args().First(),
+		UserName:   c.Args().First(),
+		Repository: c.Args().Get(1),
 	}
 
 	if err := cmdInit(&opt); err != nil {
@@ -55,43 +59,56 @@ func CmdInit(c *cli.Context) error {
 // cmdInit defines init command action.
 func cmdInit(opt *InitOpt) (err error) {
 
+	// Check user name.
 	if opt.UserName == "" {
+		fmt.Printf("Checking git configuration to get the user name: ")
 		opt.UserName, err = gitconfig.GithubUser()
 		if err != nil {
 			return fmt.Errorf("Cannot find user name (%s)", err.Error())
 		}
+		fmt.Println(chalk.Yellow.Color(opt.UserName))
 	}
 
 	// Prepare directories.
+	fmt.Printf("Preparing the directory to store a brew formula: ")
 	if err = prepareDirectory(opt.Config.Homebrew); err != nil {
 		return
 	}
+	fmt.Println("done")
 
 	// Check Makefile doesn't exist and create it.
-	fmt.Println(chalk.Bold.TextStyle("Creating Makefile."))
+	fmt.Printf("Creating Makefile: ")
 	err = createResource("Makefile", &Makefile{
 		Dest:     opt.Config.Package,
 		UserName: opt.UserName,
 	})
 	if err != nil {
-		fmt.Printf(chalk.Yellow.Color("Cannot create Makefile (%s).\n"), err.Error())
+		fmt.Printf(chalk.Yellow.Color("skipped (%s).\n"), err.Error())
+	} else {
+		fmt.Println("done")
 	}
 
 	// Check brew rb file doesn't exist and create it.
-	repo, err := gitconfig.Repository()
-	if err != nil {
-		return
+	fmt.Printf("Creating a template of homebrew formula: ")
+	if opt.Repository == "" {
+		opt.Repository, err = gitconfig.Repository()
 	}
-	fmt.Println(chalk.Bold.TextStyle("Creating a template of homebrew formula."))
-	err = createResource(filepath.Join(opt.Config.Homebrew, fmt.Sprintf("%s.rb.template", repo)), &FormulaTemplate{
-		Package:  repo,
-		UserName: opt.UserName,
-	})
-	if err != nil {
-		fmt.Printf(chalk.Yellow.Color("Cannot create a formula template (%s).\n"), err.Error())
+	if opt.Repository == "" {
+		fmt.Printf(chalk.Red.Color("skipped (%s).\n"), err.Error())
+		fmt.Println(chalk.Yellow.Color("You must re-run init command after setting a remote repository."))
+	} else {
+		err = createResource(filepath.Join(opt.Config.Homebrew, fmt.Sprintf("%s.rb.template", opt.Repository)), &FormulaTemplate{
+			Package:  opt.Repository,
+			UserName: opt.UserName,
+		})
+		if err != nil {
+			fmt.Printf(chalk.Yellow.Color("skipped (%s).\n"), err.Error())
+		} else {
+			fmt.Println("done")
+		}
 	}
 
-	fmt.Printf(chalk.Bold.TextStyle("Storing configurations to %s.\n"), ConfigFile)
+	fmt.Printf("Storing configurations to %s.\n", ConfigFile)
 	return opt.Config.Save(ConfigFile)
 
 }
@@ -100,14 +117,16 @@ func cmdInit(opt *InitOpt) (err error) {
 func prepareDirectory(path string) error {
 
 	if info, exist := os.Stat(path); exist == nil && !info.IsDir() {
-		return fmt.Errorf("Cannot make directory %s", path)
+		return fmt.Errorf("cannot make directory %s", path)
 	} else if err := os.MkdirAll(path, 0755); err != nil {
-		return fmt.Errorf("Cannot make directory %s (%s)", path, err.Error())
+		return fmt.Errorf("cannot make directory %s (%s)", path, err.Error())
 	}
 	return nil
 
 }
 
+// createResource creates a resource from a given generator and stores it to
+// a given path.
 func createResource(path string, data Generater) (err error) {
 
 	if _, exist := os.Stat(path); exist == nil {
