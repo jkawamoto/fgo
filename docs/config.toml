@@ -11,6 +11,7 @@ theme = "github-project-landing-page"
   GithubURL = "https://github.com/jkawamoto/fgo"
   ProfilePicture = "img/fgo.png"
   Twitter = "@junkawamoto"
+  Image = "img/banner.png"
 
   GithubRepo = "fgo"
   GithubOrg = "jkawamoto"
