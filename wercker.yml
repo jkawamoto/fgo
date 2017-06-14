@@ -6,7 +6,7 @@ build:
         code: |-
           git submodule update --init
     - arjen/hugo-build:
-        version: "0.15"
+        version: "0.18"
         basedir: docs
     - samueldebruyn/minify:
         base_dir: docs/public
