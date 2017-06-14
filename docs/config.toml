@@ -16,7 +16,18 @@ theme = "github-project-landing-page"
   GithubRepo = "fgo"
   GithubOrg = "jkawamoto"
 
-  googleAnalytics = "UA-82315630-1"
+  GoogleAnalytics = "UA-82315630-1"
+  GoogleAdSenseClient = "ca-pub-4734862314145555"
+  GoogleAdSenseSlot = "4875187824"
+
+  HighlightStyle = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/agate.min.css"
+  HighlightLanguages = []
+  AddThis = "ra-57f529147128b1fb"
+
+  Favicon = "img/favicon.ico"
+  Icon16 = "img/icon_16.png"
+  Icon32 = "img/icon_32.png"
+  Icon96 = "img/icon_96.png"
 
   first_color="#f8f8f8"
   first_border_color="#e7e7e7"

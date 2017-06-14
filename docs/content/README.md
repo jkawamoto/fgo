@@ -19,7 +19,7 @@ Formula Go assumes your software is hosted in [GitHub](https://github.com/),
 and the pre-compiled binaries are uploaded in the release page of it.
 
 ### Usage
-~~~
+~~~shell
 fgo [global options] command [arguments...]
 
 COMMANDS:
@@ -71,7 +71,7 @@ re-update it to a specific version. This command do that.
 
 
 ### Installation
-```sh
+```shell
 $ brew tap jkawamoto/fgo
 $ brew install fgo
 ```

@@ -1,0 +1,20 @@
+{{ "<!-- Footer -->" | safeHTML }}
+<footer>
+  {{ partial "ad" . }}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <h4>Contact information</h4>
+        <div class="addthis_inline_follow_toolbox"></div>
+      </div>
+      <div class="col-md-7">
+        <p class="copyright text-muted small">
+        Copyright &copy; {{ .Site.Params.AuthorName }} All Rights Reserved.<br/>
+        </p>
+      </div>
+      <div class="col-md-2">
+        <script data-gratipay-username="jkawamoto" src="//grtp.co/v1.js"></script>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -11,7 +11,7 @@
 					<h3>{{ . }}</h3>
 					{{ end }}
 
-					{{ if (isset .Site.Params "GithubOrg") }}
+					{{ if (isset .Site.Params "githuborg") }}
 					{{ $org := .Site.Params.GithubOrg }}
 					{{ $repo := .Site.Params.GithubRepo }}
 					<iframe class="github-btn"

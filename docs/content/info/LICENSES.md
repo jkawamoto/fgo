@@ -6,7 +6,7 @@ slug: licenses
 ---
 This software is released under the MIT License.
 
-~~~
+~~~txt
 The MIT License (MIT)
 
 Copyright (c) 2016 Junpei Kawamoto
