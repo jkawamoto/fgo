@@ -54,7 +54,7 @@ release targets are necessary to run build command.`,
 	},
 	{
 		Name:      "build",
-		Usage:     "build binaries, upload them, an update brew formula.",
+		Usage:     "build binaries, upload them, and update brew formula.",
 		ArgsUsage: "[version]",
 		Description: `build command runs build and release targets in the Makefile to build your
 software and upload the binary files to GitHub. This command takes an argument,

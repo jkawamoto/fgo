@@ -3,7 +3,7 @@ title: "Formula Go"
 description: >-
   Build, upload, and create brew formula for golang application.
 date: 2016-12-17
-lastmod: 2016-12-17
+lastmod: 2017-06-15
 slug: readme
 ---
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](./info/licenses/)
@@ -24,7 +24,7 @@ fgo [global options] command [arguments...]
 
 COMMANDS:
      init     create Makefile and other related directories.
-     build    build binaries, upload them, an update brew formula.
+     build    build binaries, upload them, and update brew formula.
      update   update only brew formula.
      help, h  Shows a list of commands or help for one command
 

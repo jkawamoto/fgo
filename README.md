@@ -17,7 +17,7 @@ fgo [global options] command [arguments...]
 
 COMMANDS:
      init     create Makefile and other related directories.
-     build    build binaries, upload them, an update brew formula.
+     build    build binaries, upload them, and update brew formula.
      update   update only brew formula.
      help, h  Shows a list of commands or help for one command
 
@@ -64,7 +64,7 @@ re-update it to a specific version. This command do that.
 
 
 ## Installation
-```sh
+```shell
 $ brew tap jkawamoto/fgo
 $ brew install fgo
 ```
