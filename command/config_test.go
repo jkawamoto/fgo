@@ -3,7 +3,7 @@ package command
 import (
 	"io/ioutil"
 	"os"
-	"strings"
+	"regexp"
 	"testing"
 )
 
@@ -46,10 +46,11 @@ func TestConfig(t *testing.T) {
 		return
 	}
 	data := string(raw)
-	if !strings.Contains(data, "package=\"test-package\"") {
+
+	if regexp.MustCompile(`package\s*=\s*"test-package"`).FindString(data) == "" {
 		t.Errorf("Package information isn't saved.\n%s", data)
 	}
-	if !strings.Contains(data, "homebrew=\"test-homebrew\"") {
+	if regexp.MustCompile(`homebrew\s*=\s*"test-homebrew"`).FindString(data) == "" {
 		t.Errorf("Package information isn't saved.\n%s", data)
 	}
 
