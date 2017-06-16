@@ -55,7 +55,7 @@ release targets are necessary to run build command.`,
 	},
 	{
 		Name:      "build",
-		Usage:     "build binaries, upload them, and update brew formula.",
+		Usage:     "build binaries, upload them, and update the brew formula.",
 		ArgsUsage: "[version]",
 		Description: `build command runs build and release targets in the Makefile to build your
 software and upload the binary files to GitHub. This command takes an argument,
@@ -104,7 +104,7 @@ you need to push the updated formula.`,
 	},
 	{
 		Name:      "update",
-		Usage:     "update only brew formula.",
+		Usage:     "update the brew formula.",
 		ArgsUsage: "version",
 		Description: `update command updates the homebrew formula for a given version. build command
 updates the homebrew formula but sometimes you may need to re-update it to a
