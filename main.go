@@ -1,7 +1,7 @@
 //
 // main.go
 //
-// Copyright (c) 2016 Junpei Kawamoto
+// Copyright (c) 2016-2017 Junpei Kawamoto
 //
 // This software is released under the MIT License.
 //
@@ -31,6 +31,8 @@ func main() {
 	app.CommandNotFound = CommandNotFound
 	app.Before = command.Prepare
 	app.EnableBashCompletion = true
+	app.Copyright = `This software is released under the MIT License.
+   See https://jkawamoto.github.io/fgo/info/licenses/ for more information.`
 
 	app.Run(os.Args)
 }

@@ -1,7 +1,7 @@
 //
 // command/build.go
 //
-// Copyright (c) 2016 Junpei Kawamoto
+// Copyright (c) 2016-2017 Junpei Kawamoto
 //
 // This software is released under the MIT License.
 //
@@ -15,6 +15,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/ttacon/chalk"
 	"github.com/urfave/cli"
@@ -26,8 +27,55 @@ type BuildOpt struct {
 	Config Config
 	// Version string.
 	Version string
+	// Options for ghr command.
+	GHROpt ghrOpt
 }
 
+// ghrOpt defines options for ghr command.
+type ghrOpt struct {
+	// GitHub API token.
+	Token string
+	// New release's message body.
+	Body string
+	// The number of goroutines used in ghr.
+	Process int
+	// If true and the given version is already released, delete it and create a
+	// new release.
+	Delete bool
+	// If true, the new release won't be published.
+	Draft bool
+	// If true, the new release will be marked as a prerelease.
+	Pre bool
+}
+
+// String creates a string representing flags of this options.
+func (o *ghrOpt) String() string {
+
+	var opts []string
+	if o.Token != "" {
+		opts = append(opts, fmt.Sprint("-t ", o.Token))
+	}
+	if o.Body != "" {
+		opts = append(opts, fmt.Sprintf(`-b "%v"`, o.Body))
+	}
+	if o.Process > 0 {
+		opts = append(opts, fmt.Sprint("-p ", o.Process))
+	}
+	if o.Delete {
+		opts = append(opts, "-delete")
+	}
+	if o.Draft {
+		opts = append(opts, "-draft")
+	}
+	if o.Pre {
+		opts = append(opts, "-prerelease")
+	}
+
+	return strings.Join(opts, " ")
+
+}
+
+// CmdBuild run the build command.
 func CmdBuild(c *cli.Context) error {
 
 	opt := BuildOpt{
@@ -36,6 +84,14 @@ func CmdBuild(c *cli.Context) error {
 			Homebrew: c.GlobalString(HomebrewFlag),
 		},
 		Version: c.Args().First(),
+		GHROpt: ghrOpt{
+			Token:   c.String("token"),
+			Body:    c.String("body"),
+			Process: c.Int("process"),
+			Delete:  c.Bool("delete"),
+			Draft:   c.Bool("draft"),
+			Pre:     c.Bool("pre"),
+		},
 	}
 
 	if err := cmdBuild(&opt); err != nil {
@@ -49,21 +105,25 @@ func cmdBuild(opt *BuildOpt) (err error) {
 
 	// Build and upload via make.
 	fmt.Println(chalk.Bold.TextStyle("Building binaries."))
-	if err = build(opt.Version); err != nil {
-		return
-	}
-
-	return cmdUpdate(opt.Config.Package, opt.Config.Homebrew, opt.Version)
-
-}
-
-func build(version string) (err error) {
 
 	var cmd *exec.Cmd
-	if version != "" {
-		cmd = exec.Command("make", "build", "release", fmt.Sprintf("VERSION=%s", version))
+	if opt.Version != "" {
+
+		// If body is not given but CHANGELOG.md has a release note,
+		// use it instead.
+		if opt.GHROpt.Body == "" {
+			var note string
+			note, err = ReleaseNote("CHANGELOG.md", opt.Version)
+			if err == nil {
+				opt.GHROpt.Body = strings.Replace(note, `"`, `\"`, -1)
+			}
+		}
+
+		ghrflags := fmt.Sprintf(`GHRFLAGS=%v`, opt.GHROpt.String())
+		fmt.Println(ghrflags)
+		cmd = exec.Command("make", "build", "release", fmt.Sprintf("VERSION=%s", opt.Version), ghrflags)
 	} else {
-		fmt.Println("Version is not given, set `snapshot`.")
+		fmt.Println("Version is not given, set `snapshot`")
 		cmd = exec.Command("make", "build")
 	}
 
@@ -79,6 +139,10 @@ func build(version string) (err error) {
 	}
 	go io.Copy(os.Stderr, stderr)
 
-	return cmd.Run()
+	if err = cmd.Run(); err != nil {
+		return
+	}
+
+	return cmdUpdate(opt.Config.Package, opt.Config.Homebrew, opt.Version)
 
 }

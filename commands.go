@@ -1,7 +1,7 @@
 //
 // commands.go
 //
-// Copyright (c) 2016 Junpei Kawamoto
+// Copyright (c) 2016-2017 Junpei Kawamoto
 //
 // This software is released under the MIT License.
 //
@@ -13,6 +13,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"runtime"
 
 	"github.com/jkawamoto/fgo/command"
 	"github.com/urfave/cli"
@@ -54,20 +55,56 @@ release targets are necessary to run build command.`,
 	},
 	{
 		Name:      "build",
-		Usage:     "build binaries, upload them, and update brew formula.",
+		Usage:     "build binaries, upload them, and update the brew formula.",
 		ArgsUsage: "[version]",
 		Description: `build command runs build and release targets in the Makefile to build your
 software and upload the binary files to GitHub. This command takes an argument,
 version, which specifies the version to be created. If it is omitted, "snapshot"
 will be used and uploading will be skipped.
 
+To run this command, a GitHub API token is required. Users have to give a token
+via one of the -t/--token flag, GITHUB_TOKEN environment variable, and github.token
+variable in your .gitconfig.
+
+If -b/--body flag isn't given but your CHANGELOG.md contains a release note
+associated with that version, the release note will be copied to the release
+page in GitHub.
+
 This command also updates the homebrew formula. After finishing this command,
 you need to push the updated formula.`,
 		Action: command.CmdBuild,
+		Flags: []cli.Flag{
+			cli.StringFlag{
+				Name:   "t, token",
+				Usage:  "GitHub API `TOKEN` for uploading binaries",
+				EnvVar: "GITHUB_TOKEN",
+			},
+			cli.StringFlag{
+				Name:  "b, body",
+				Usage: "`TEXT` describing the contents of this release",
+			},
+			cli.IntFlag{
+				Name:  "p, process",
+				Usage: "the number of goroutines",
+				Value: runtime.NumCPU(),
+			},
+			cli.BoolFlag{
+				Name:  "delete",
+				Usage: "delete release and its git tag in advance if exists",
+			},
+			cli.BoolFlag{
+				Name:  "draft",
+				Usage: "create a draft (unpublished) release",
+			},
+			cli.BoolFlag{
+				Name:  "pre",
+				Usage: "mark this release is a prerelease",
+			},
+		},
 	},
 	{
 		Name:      "update",
-		Usage:     "update only brew formula.",
+		Usage:     "update the brew formula.",
 		ArgsUsage: "version",
 		Description: `update command updates the homebrew formula for a given version. build command
 updates the homebrew formula but sometimes you may need to re-update it to a

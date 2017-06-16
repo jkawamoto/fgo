@@ -1,7 +1,8 @@
 # Formula Go
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/jkawamoto/fgo.svg?branch=master)](https://travis-ci.org/jkawamoto/fgo)
-[![Code Climate](https://codeclimate.com/github/jkawamoto/fgo/badges/gpa.svg)](https://codeclimate.com/github/jkawamoto/fgo)
+[![wercker status](https://app.wercker.com/status/9ab256a7b25d4d3980ed7821136b4177/s/master "wercker status")](https://app.wercker.com/project/byKey/9ab256a7b25d4d3980ed7821136b4177)
+[![go report](https://goreportcard.com/badge/github.com/jkawamoto/fgo)](https://goreportcard.com/report/github.com/jkawamoto/fgo)
 [![Release](https://img.shields.io/badge/release-0.2.4-brightgreen.svg)](https://github.com/jkawamoto/fgo/releases/tag/v0.2.4)
 
 Formula Go helps you to build and upload your software written in
@@ -17,8 +18,8 @@ fgo [global options] command [arguments...]
 
 COMMANDS:
      init     create Makefile and other related directories.
-     build    build binaries, upload them, and update brew formula.
-     update   update only brew formula.
+     build    build binaries, upload them, and update the brew formula.
+     update   update the brew formula.
      help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
@@ -53,8 +54,40 @@ your software and upload the binary files to GitHub. This command takes an
 argument, version, which specifies the version to be created. If it is omitted,
 "snapshot" will be used and uploading will be skipped.
 
-This command also updates the homebrew formula. After finishing this command,
+This command also updates your homebrew formula. After finishing this command,
 you need to push the updated formula.
+
+This command takes the following option flags:
+
+#### -t, --token
+This flag specifies a GitHub API token used to upload binaries and create a
+release page. If this flag is not given but `GITHUB_TOKEN` environment
+variable has been set, the environment variable will be used.
+
+If neither this flag nor `GITHUB_TOKEN` are given, `github.token` variable
+in your `.gitconfig` will be used.
+
+#### -b, --body
+This flag specifies a release note for the given version.
+
+If this flag isn't given but your `CHANGELOG.md` contains a release note
+associated with that version, the release note will be used.
+
+#### -p, --process
+This flag specifies how many goroutines will be used to upload binaries.
+The default number is as same as the number of CPUs.
+
+#### --delete
+If this flag is set and there is a release for the given version, the
+release will be deleted and a new release for the given version will be
+created.
+
+#### --draft
+If this flag is set, the new release won't be published and will be kept as
+a draft.
+
+#### --pre
+If this flag is set, the new release will be marked as a prerelease.
 
 
 ### Update
