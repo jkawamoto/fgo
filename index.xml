@@ -19,8 +19,9 @@
 
 &lt;p&gt;&lt;a href=&#34;./info/licenses/&#34;&gt;&lt;img src=&#34;https://img.shields.io/badge/license-MIT-blue.svg?style=flat&#34; alt=&#34;MIT License&#34; /&gt;&lt;/a&gt;
 &lt;a href=&#34;https://travis-ci.org/jkawamoto/fgo&#34;&gt;&lt;img src=&#34;https://travis-ci.org/jkawamoto/fgo.svg?branch=master&#34; alt=&#34;Build Status&#34; /&gt;&lt;/a&gt;
-&lt;a href=&#34;https://codeclimate.com/github/jkawamoto/fgo&#34;&gt;&lt;img src=&#34;https://codeclimate.com/github/jkawamoto/fgo/badges/gpa.svg&#34; alt=&#34;Code Climate&#34; /&gt;&lt;/a&gt;
-&lt;a href=&#34;https://github.com/jkawamoto/fgo/releases/tag/v0.2.4&#34;&gt;&lt;img src=&#34;https://img.shields.io/badge/release-0.2.4-brightgreen.svg&#34; alt=&#34;Release&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href=&#34;https://app.wercker.com/project/byKey/9ab256a7b25d4d3980ed7821136b4177&#34;&gt;&lt;img src=&#34;https://app.wercker.com/status/9ab256a7b25d4d3980ed7821136b4177/s/master&#34; alt=&#34;wercker status&#34; title=&#34;wercker status&#34; /&gt;&lt;/a&gt;
+&lt;a href=&#34;https://goreportcard.com/report/github.com/jkawamoto/fgo&#34;&gt;&lt;img src=&#34;https://goreportcard.com/badge/github.com/jkawamoto/fgo&#34; alt=&#34;go report&#34; /&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/jkawamoto/fgo/releases/tag/v0.2.5&#34;&gt;&lt;img src=&#34;https://img.shields.io/badge/release-0.2.5-brightgreen.svg&#34; alt=&#34;Release&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Formula Go helps you to build and upload your software written in
 &lt;a href=&#34;https://golang.org/&#34;&gt;Go&lt;/a&gt;, and prepare a &lt;a href=&#34;http://brew.sh/&#34;&gt;homebrew&lt;/a&gt; formula
@@ -29,14 +30,12 @@ for it.&lt;/p&gt;
 &lt;p&gt;Formula Go assumes your software is hosted in &lt;a href=&#34;https://github.com/&#34;&gt;GitHub&lt;/a&gt;,
 and the pre-compiled binaries are uploaded in the release page of it.&lt;/p&gt;
 
-&lt;h3 id=&#34;usage&#34;&gt;Usage&lt;/h3&gt;
-
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;fgo [global options] command [arguments...]
 
 COMMANDS:
      init     create Makefile and other related directories.
-     build    build binaries, upload them, and update brew formula.
-     update   update only brew formula.
+     build    build binaries, upload them, and update the brew formula.
+     update   update the brew formula.
      help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
@@ -46,7 +45,7 @@ GLOBAL OPTIONS:
    --version, -v         print the version
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;initialization&#34;&gt;Initialization&lt;/h4&gt;
+&lt;h3 id=&#34;initialization&#34;&gt;Initialization&lt;/h3&gt;
 
 &lt;p&gt;After starting your project, initialization is required.
 To initialize Formula Go, run &lt;code&gt;fgo init&lt;/code&gt;.
@@ -65,7 +64,7 @@ you need to re-run init command after setting git configuration.&lt;/p&gt;
 &lt;p&gt;You can edit the Makefile and the template of homebrew formula, but build and
 release targets are necessary to run build command.&lt;/p&gt;
 
-&lt;h4 id=&#34;build-and-upload&#34;&gt;Build and upload&lt;/h4&gt;
+&lt;h3 id=&#34;build-and-upload&#34;&gt;Build and upload&lt;/h3&gt;
 
 &lt;p&gt;&lt;code&gt;fgo build [version]&lt;/code&gt; runs build and release targets in the Makefile to build
 your software and upload the binary files to GitHub. This command takes an
@@ -75,13 +74,51 @@ argument, version, which specifies the version to be created. If it is omitted,
 &lt;p&gt;This command also updates the homebrew formula. After finishing this command,
 you need to push the updated formula.&lt;/p&gt;
 
-&lt;h4 id=&#34;update&#34;&gt;Update&lt;/h4&gt;
+&lt;p&gt;This command takes the following option flags:&lt;/p&gt;
+
+&lt;h4 id=&#34;t-token&#34;&gt;&lt;strong&gt;-t, &amp;ndash;token&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;This flag specifies a GitHub API token used to upload binaries and create a
+release page. If this flag is not given but &lt;code&gt;GITHUB_TOKEN&lt;/code&gt; environment
+variable has been set, the environment variable will be used.&lt;/p&gt;
+
+&lt;p&gt;If neither this flag nor &lt;code&gt;GITHUB_TOKEN&lt;/code&gt; are given, &lt;code&gt;github.token&lt;/code&gt; variable
+in your &lt;code&gt;.gitconfig&lt;/code&gt; will be used.&lt;/p&gt;
+
+&lt;h4 id=&#34;b-body&#34;&gt;&lt;strong&gt;-b, &amp;ndash;body&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;This flag specifies a release note for the given version.&lt;/p&gt;
+
+&lt;p&gt;If this flag isn&amp;rsquo;t given but your &lt;code&gt;CHANGELOG.md&lt;/code&gt; contains a release note
+associated with that version, the release note will be used.&lt;/p&gt;
+
+&lt;h4 id=&#34;p-process&#34;&gt;&lt;strong&gt;-p, &amp;ndash;process&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;This flag specifies how many goroutines will be used to upload binaries.
+The default number is as same as the number of CPUs.&lt;/p&gt;
+
+&lt;h4 id=&#34;delete&#34;&gt;&lt;strong&gt;&amp;ndash;delete&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;If this flag is set and there is a release for the given version, the
+release will be deleted and a new release for the given version will be
+created.&lt;/p&gt;
+
+&lt;h4 id=&#34;draft&#34;&gt;&lt;strong&gt;&amp;ndash;draft&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;If this flag is set, the new release won&amp;rsquo;t be published and will be kept as
+a draft.&lt;/p&gt;
+
+&lt;h4 id=&#34;pre&#34;&gt;&lt;strong&gt;&amp;ndash;pre&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;If this flag is set, the new release will be marked as a prerelease.&lt;/p&gt;
+
+&lt;h3 id=&#34;update&#34;&gt;Update&lt;/h3&gt;
 
 &lt;p&gt;&lt;code&gt;fgo update [version]&lt;/code&gt; updates the homebrew formula for a given version.
 build command updates the homebrew formula but sometimes you may need to
 re-update it to a specific version. This command do that.&lt;/p&gt;
 
-&lt;h3 id=&#34;installation&#34;&gt;Installation&lt;/h3&gt;
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ brew tap jkawamoto/fgo
 $ brew install fgo
@@ -91,7 +128,7 @@ $ brew install fgo
 &lt;a href=&#34;https://github.com/tcnksm/ghr&#34;&gt;ghr&lt;/a&gt;.
 The above &lt;code&gt;brew install&lt;/code&gt; command also installs those dependencies if necessary.&lt;/p&gt;
 
-&lt;h3 id=&#34;license&#34;&gt;License&lt;/h3&gt;
+&lt;h2 id=&#34;license&#34;&gt;License&lt;/h2&gt;
 
 &lt;p&gt;This software is released under the MIT License, see &lt;a href=&#34;./info/licenses/&#34;&gt;LICENSE&lt;/a&gt;.&lt;/p&gt;
 </description>
@@ -107,35 +144,71 @@ The above &lt;code&gt;brew install&lt;/code&gt; command also installs those depe
 
 &lt;p&gt;This software is released under the MIT License.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-txt&#34;&gt;The MIT License (MIT)
+&lt;blockquote&gt;
+&lt;p&gt;The MIT License (MIT)&lt;/p&gt;
 
-Copyright (c) 2016 Junpei Kawamoto
+&lt;p&gt;Copyright &amp;copy; 2016-2017 Junpei Kawamoto&lt;/p&gt;
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the &amp;quot;Software&amp;quot;), to deal
+&lt;p&gt;Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &amp;ldquo;Software&amp;rdquo;), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+furnished to do so, subject to the following conditions:&lt;/p&gt;
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+&lt;p&gt;The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.&lt;/p&gt;
 
-THE SOFTWARE IS PROVIDED &amp;quot;AS IS&amp;quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+&lt;p&gt;THE SOFTWARE IS PROVIDED &amp;ldquo;AS IS&amp;rdquo;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-&lt;/code&gt;&lt;/pre&gt;
+SOFTWARE.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h2 id=&#34;notices-for-libraries&#34;&gt;Notices for libraries&lt;/h2&gt;
 
 &lt;p&gt;This software uses the following open source libraries:&lt;/p&gt;
 
+&lt;h3 id=&#34;blackfriday-https-github-com-russross-blackfriday&#34;&gt;&lt;a href=&#34;https://github.com/russross/blackfriday&#34;&gt;Blackfriday&lt;/a&gt;&lt;/h3&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Copyright © 2011 Russ Ross
+All rights reserved.&lt;/p&gt;
+
+&lt;p&gt;Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided with
+the distribution.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+&amp;ldquo;AS IS&amp;rdquo; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.&lt;/p&gt;
+&lt;/blockquote&gt;
+
 &lt;h3 id=&#34;chalk-https-github-com-ttacon-chalk&#34;&gt;&lt;a href=&#34;https://github.com/ttacon/chalk&#34;&gt;chalk&lt;/a&gt;&lt;/h3&gt;
 
+&lt;blockquote&gt;
 &lt;p&gt;Copyright &amp;copy; 2014 Trey Tacon&lt;/p&gt;
 
 &lt;p&gt;Licensed under the MIT License.&lt;/p&gt;
@@ -157,9 +230,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h3 id=&#34;cli-https-github-com-urfave-cli&#34;&gt;&lt;a href=&#34;https://github.com/urfave/cli&#34;&gt;cli&lt;/a&gt;&lt;/h3&gt;
 
+&lt;blockquote&gt;
 &lt;p&gt;Copyright &amp;copy; 2016 Jeremy Saenz &amp;amp; Contributors&lt;/p&gt;
 
 &lt;p&gt;Licensed under the MIT License.&lt;/p&gt;
@@ -181,9 +256,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h3 id=&#34;go-gitconfig-https-github-com-tcnksm-go-gitconfig&#34;&gt;&lt;a href=&#34;https://github.com/tcnksm/go-gitconfig&#34;&gt;go-gitconfig&lt;/a&gt;&lt;/h3&gt;
 
+&lt;blockquote&gt;
 &lt;p&gt;Copyright &amp;copy; 2014 tcnksm&lt;/p&gt;
 
 &lt;p&gt;Licensed under the MIT License.&lt;/p&gt;
@@ -206,9 +283,11 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h3 id=&#34;toml-https-github-com-naoina-toml&#34;&gt;&lt;a href=&#34;https://github.com/naoina/toml&#34;&gt;toml&lt;/a&gt;&lt;/h3&gt;
 
+&lt;blockquote&gt;
 &lt;p&gt;Copyright &amp;copy; 2014 Naoya Inada &amp;lt;&lt;a href=&#34;mailto:naoina@kuune.org&#34;&gt;naoina@kuune.org&lt;/a&gt;&amp;gt;&lt;/p&gt;
 
 &lt;p&gt;Licensed under the MIT License.&lt;/p&gt;
@@ -230,6 +309,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.&lt;/p&gt;
+&lt;/blockquote&gt;
 </description>
     </item>
     

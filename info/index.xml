@@ -19,35 +19,71 @@
 
 &lt;p&gt;This software is released under the MIT License.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-txt&#34;&gt;The MIT License (MIT)
+&lt;blockquote&gt;
+&lt;p&gt;The MIT License (MIT)&lt;/p&gt;
 
-Copyright (c) 2016 Junpei Kawamoto
+&lt;p&gt;Copyright &amp;copy; 2016-2017 Junpei Kawamoto&lt;/p&gt;
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the &amp;quot;Software&amp;quot;), to deal
+&lt;p&gt;Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &amp;ldquo;Software&amp;rdquo;), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+furnished to do so, subject to the following conditions:&lt;/p&gt;
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+&lt;p&gt;The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.&lt;/p&gt;
 
-THE SOFTWARE IS PROVIDED &amp;quot;AS IS&amp;quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+&lt;p&gt;THE SOFTWARE IS PROVIDED &amp;ldquo;AS IS&amp;rdquo;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-&lt;/code&gt;&lt;/pre&gt;
+SOFTWARE.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h2 id=&#34;notices-for-libraries&#34;&gt;Notices for libraries&lt;/h2&gt;
 
 &lt;p&gt;This software uses the following open source libraries:&lt;/p&gt;
 
+&lt;h3 id=&#34;blackfriday-https-github-com-russross-blackfriday&#34;&gt;&lt;a href=&#34;https://github.com/russross/blackfriday&#34;&gt;Blackfriday&lt;/a&gt;&lt;/h3&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Copyright © 2011 Russ Ross
+All rights reserved.&lt;/p&gt;
+
+&lt;p&gt;Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided with
+the distribution.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+&amp;ldquo;AS IS&amp;rdquo; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.&lt;/p&gt;
+&lt;/blockquote&gt;
+
 &lt;h3 id=&#34;chalk-https-github-com-ttacon-chalk&#34;&gt;&lt;a href=&#34;https://github.com/ttacon/chalk&#34;&gt;chalk&lt;/a&gt;&lt;/h3&gt;
 
+&lt;blockquote&gt;
 &lt;p&gt;Copyright &amp;copy; 2014 Trey Tacon&lt;/p&gt;
 
 &lt;p&gt;Licensed under the MIT License.&lt;/p&gt;
@@ -69,9 +105,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h3 id=&#34;cli-https-github-com-urfave-cli&#34;&gt;&lt;a href=&#34;https://github.com/urfave/cli&#34;&gt;cli&lt;/a&gt;&lt;/h3&gt;
 
+&lt;blockquote&gt;
 &lt;p&gt;Copyright &amp;copy; 2016 Jeremy Saenz &amp;amp; Contributors&lt;/p&gt;
 
 &lt;p&gt;Licensed under the MIT License.&lt;/p&gt;
@@ -93,9 +131,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h3 id=&#34;go-gitconfig-https-github-com-tcnksm-go-gitconfig&#34;&gt;&lt;a href=&#34;https://github.com/tcnksm/go-gitconfig&#34;&gt;go-gitconfig&lt;/a&gt;&lt;/h3&gt;
 
+&lt;blockquote&gt;
 &lt;p&gt;Copyright &amp;copy; 2014 tcnksm&lt;/p&gt;
 
 &lt;p&gt;Licensed under the MIT License.&lt;/p&gt;
@@ -118,9 +158,11 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h3 id=&#34;toml-https-github-com-naoina-toml&#34;&gt;&lt;a href=&#34;https://github.com/naoina/toml&#34;&gt;toml&lt;/a&gt;&lt;/h3&gt;
 
+&lt;blockquote&gt;
 &lt;p&gt;Copyright &amp;copy; 2014 Naoya Inada &amp;lt;&lt;a href=&#34;mailto:naoina@kuune.org&#34;&gt;naoina@kuune.org&lt;/a&gt;&amp;gt;&lt;/p&gt;
 
 &lt;p&gt;Licensed under the MIT License.&lt;/p&gt;
@@ -142,6 +184,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.&lt;/p&gt;
+&lt;/blockquote&gt;
 </description>
     </item>
     
