@@ -13,6 +13,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"runtime"
 
 	"github.com/jkawamoto/fgo/command"
 	"github.com/urfave/cli"
@@ -61,9 +62,41 @@ software and upload the binary files to GitHub. This command takes an argument,
 version, which specifies the version to be created. If it is omitted, "snapshot"
 will be used and uploading will be skipped.
 
+To run this command, a GitHub API token is required. Users have to give a token
+via one of the -t/--token flag, GITHUB_TOKEN environment variable, and github.token
+variable in your .gitconfig.
+
 This command also updates the homebrew formula. After finishing this command,
 you need to push the updated formula.`,
 		Action: command.CmdBuild,
+		Flags: []cli.Flag{
+			cli.StringFlag{
+				Name:   "t, token",
+				Usage:  "GitHub API `TOKEN` for uploading binaries",
+				EnvVar: "GITHUB_TOKEN",
+			},
+			cli.StringFlag{
+				Name:  "b, body",
+				Usage: "`TEXT` describing the contents of this release",
+			},
+			cli.IntFlag{
+				Name:  "p, process",
+				Usage: "the number of goroutines",
+				Value: runtime.NumCPU(),
+			},
+			cli.BoolFlag{
+				Name:  "delete",
+				Usage: "delete release and its git tag in advance if exists",
+			},
+			cli.BoolFlag{
+				Name:  "draft",
+				Usage: "create a draft (unpublished) release",
+			},
+			cli.BoolFlag{
+				Name:  "pre",
+				Usage: "mark this release is a prerelease",
+			},
+		},
 	},
 	{
 		Name:      "update",
