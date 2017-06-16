@@ -1,3 +1,9 @@
+## 0.2.5 (2017-06-16)
+### Update
+- `build` command takes option flags for [`ghr`](http://tcnksm.github.io/ghr/)
+- `build` command parses `CHANGELOG.md` and creates a release note
+
+
 ## 0.2.4 (2016-12-21)
 ### Updated
 - `init` command takes repository name to create a homebrew formula without git configurations.

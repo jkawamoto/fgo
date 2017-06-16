@@ -1,13 +1,14 @@
 #
 # Makefile
 #
-# Copyright (c) 2016 Junpei Kawamoto
+# Copyright (c) 2016-2017 Junpei Kawamoto
 #
 # This software is released under the MIT License.
 #
 # http://opensource.org/licenses/mit-license.php
 #
 VERSION = snapshot
+GHRFLAGS =
 
 default: build
 
@@ -21,7 +22,7 @@ build: asset
 
 .PHONY: release
 release:
-	ghr  -u jkawamoto  v$(VERSION) pkg/$(VERSION)
+	ghr  -u jkawamoto $(GHRFLAGS) v$(VERSION) pkg/$(VERSION)
 
 .PHONY: get-deps
 get-deps:
