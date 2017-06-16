@@ -1,7 +1,7 @@
 //
 // commands.go
 //
-// Copyright (c) 2016 Junpei Kawamoto
+// Copyright (c) 2016-2017 Junpei Kawamoto
 //
 // This software is released under the MIT License.
 //
@@ -65,6 +65,10 @@ will be used and uploading will be skipped.
 To run this command, a GitHub API token is required. Users have to give a token
 via one of the -t/--token flag, GITHUB_TOKEN environment variable, and github.token
 variable in your .gitconfig.
+
+If -b/--body flag isn't given but your CHANGELOG.md contains a release note
+associated with that version, the release note will be copied to the release
+page in GitHub.
 
 This command also updates the homebrew formula. After finishing this command,
 you need to push the updated formula.`,

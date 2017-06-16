@@ -108,7 +108,19 @@ func cmdBuild(opt *BuildOpt) (err error) {
 
 	var cmd *exec.Cmd
 	if opt.Version != "" {
-		ghrflags := fmt.Sprintf(`GHRFLAGS="%v"`, opt.GHROpt.String())
+
+		// If body is not given but CHANGELOG.md has a release note,
+		// use it instead.
+		if opt.GHROpt.Body == "" {
+			var note string
+			note, err = ReleaseNote("CHANGELOG.md", opt.Version)
+			if err == nil {
+				opt.GHROpt.Body = strings.Replace(note, `"`, `\"`, -1)
+			}
+		}
+
+		ghrflags := fmt.Sprintf(`GHRFLAGS=%v`, opt.GHROpt.String())
+		fmt.Println(ghrflags)
 		cmd = exec.Command("make", "build", "release", fmt.Sprintf("VERSION=%s", opt.Version), ghrflags)
 	} else {
 		fmt.Println("Version is not given, set `snapshot`")
