@@ -5,6 +5,8 @@
 [![go report](https://goreportcard.com/badge/github.com/jkawamoto/fgo)](https://goreportcard.com/report/github.com/jkawamoto/fgo)
 [![Release](https://img.shields.io/badge/release-0.2.5-brightgreen.svg)](https://github.com/jkawamoto/fgo/releases/tag/v0.2.5)
 
+[![fgo](https://jkawamoto.github.io/fgo/img/small-banner.png)](https://jkawamoto.github.io/fgo/)
+
 Formula Go helps you to build and upload your software written in
 [Go](https://golang.org/), and prepare a [homebrew](http://brew.sh/) formula
 for it.

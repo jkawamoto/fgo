@@ -4,8 +4,8 @@ title = "Formula Go"
 theme = "github-project-landing-page"
 
 [params]
-  SubTitle = "Build, upload, and create brew formula for golang application."
-  Description = "Build, upload, and create brew formula for golang application."
+  SubTitle = "Build, upload, and create brew formulae for golang applications."
+  Description = "Build, upload, and create brew formulae for golang applications."
   AuthorName = "Junpei Kawamoto"
   AuthorURL = "https://www.jkawamoto.info/"
   GithubURL = "https://github.com/jkawamoto/fgo"
