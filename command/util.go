@@ -1,7 +1,7 @@
 //
 // command/util.go
 //
-// Copyright (c) 2016 Junpei Kawamoto
+// Copyright (c) 2016-2017 Junpei Kawamoto
 //
 // This software is released under the MIT License.
 //
@@ -70,6 +70,7 @@ func generate(data []byte, param interface{}) (res []byte, err error) {
 
 }
 
+// Sha256 computes sha256 hash of the given file.
 func Sha256(path string) (res string, err error) {
 
 	fp, err := os.Open(path)
