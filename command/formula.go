@@ -20,13 +20,22 @@ type FormulaTemplate struct {
 	UserName string
 }
 
+// ArchiveInfo defines information of an archive file.
+type ArchiveInfo struct {
+	// File name of the archive.
+	FileName string
+	// Hash value of the archive file.
+	Hash string
+}
+
 // Formula defines variables to generate a homebrew formula.
 type Formula struct {
-	Version     string
-	FileName64  string
-	FileName386 string
-	Hash64      string
-	Hash386     string
+	// Version.
+	Version string
+	// Archive information for 64bit mac
+	Mac64 ArchiveInfo
+	// Archive information for 386 mac
+	Mac386 ArchiveInfo
 }
 
 // Generate creates a template of a homebrew formula by given variables.

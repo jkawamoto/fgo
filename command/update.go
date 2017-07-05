@@ -62,15 +62,15 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 	for _, f := range matches {
 		switch {
 		case strings.Contains(f, "386"):
-			param.FileName386 = filepath.Base(f)
-			param.Hash386, err = Sha256(f)
+			param.Mac386.FileName = filepath.Base(f)
+			param.Mac386.Hash, err = Sha256(f)
 			if err != nil {
 				return
 			}
 
 		case strings.Contains(f, "amd64"):
-			param.FileName64 = filepath.Base(f)
-			param.Hash64, err = Sha256(f)
+			param.Mac64.FileName = filepath.Base(f)
+			param.Mac64.Hash, err = Sha256(f)
 			if err != nil {
 				return
 			}
@@ -78,7 +78,7 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 	}
 
 	// Check binary files are found in local.
-	if param.FileName386 == "" || param.FileName64 == "" {
+	if param.Mac386.FileName == "" || param.Mac64.FileName == "" {
 		return fmt.Errorf(chalk.Red.Color("Binary files are not found. Run build command instead.\n"))
 	}
 
