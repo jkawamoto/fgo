@@ -11,6 +11,7 @@
 package command
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -32,15 +33,14 @@ func TestFormulaTemplate(t *testing.T) {
 
 	res := string(data)
 	if !strings.Contains(res, "class Test") {
-		t.Error("Generated file has wrong class name.")
+		t.Error("Generated file has wrong class name.", res)
 	}
 	if !strings.Contains(res, "https://github.com/abcde/test") {
-		t.Error("Generated file has wrong URL.")
+		t.Error("Generated file has wrong URL.", res)
 	}
 	if !strings.Contains(res, "bin.install \"test\"") {
-		t.Error("Generated file has wrong install command.")
+		t.Error("Generated file has wrong install command.", res)
 	}
-	t.Log(res)
 
 }
 
@@ -77,6 +77,14 @@ func TestFormula(t *testing.T) {
 			FileName: "testname.mac.386",
 			Hash:     "testhash.mac.386",
 		},
+		Linux64: ArchiveInfo{
+			FileName: "testname.linux.64",
+			Hash:     "testhash.linux.64",
+		},
+		Linux386: ArchiveInfo{
+			FileName: "testname.linux.386",
+			Hash:     "testhash.linux.386",
+		},
 	}
 	data, err = args.Generate(fp.Name())
 	if err != nil {
@@ -84,17 +92,15 @@ func TestFormula(t *testing.T) {
 	}
 
 	res := string(data)
-	if !strings.Contains(res, "vtest.version/testname.mac.64") {
-		t.Error("URL for 64bit mac is wrong:", res)
-	}
-	if !strings.Contains(res, "vtest.version/testname.mac.386") {
-		t.Error("URL for 386 mac is wrong:", res)
-	}
-	if !strings.Contains(res, `sha256 "testhash.mac.64"`) {
-		t.Error("Hash value for 64bit mac is wrong:", res)
-	}
-	if !strings.Contains(res, `sha256 "testhash.mac.386"`) {
-		t.Error("Hash value for 386 mac is wrong:", res)
+	for _, os := range []string{"mac", "linux"} {
+		for _, arch := range []string{"64", "386"} {
+			if !strings.Contains(res, fmt.Sprintf("vtest.version/testname.%v.%v", os, arch)) {
+				t.Errorf("URL for %v-%v is wrong: %v", os, arch, res)
+			}
+			if !strings.Contains(res, fmt.Sprintf(`sha256 "testhash.%v.%v"`, os, arch)) {
+				t.Errorf("Hash value for %v-%v is wrong: %v", os, arch, res)
+			}
+		}
 	}
 
 }

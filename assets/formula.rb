@@ -12,7 +12,8 @@ class {{.Package | Title}} < Formula
       url "https://github.com/{{.UserName}}/{{.Package}}/releases/download/v{{"{{.Version}}"}}/{{"{{.Mac64.FileName}}"}}"
       sha256 "{{"{{.Mac64.Hash}}"}}"
     when /linux/
-      :linux
+      url "https://github.com/{{.UserName}}/{{.Package}}/releases/download/v{{"{{.Version}}"}}/{{"{{.Linux64.FileName}}"}}"
+      sha256 "{{"{{.Linux64.Hash}}"}}"
     when /solaris|bsd/
       :unix
     else
@@ -26,7 +27,8 @@ class {{.Package | Title}} < Formula
       url "https://github.com/{{.UserName}}/{{.Package}}/releases/download/v{{"{{.Version}}"}}/{{"{{.Mac386.FileName}}"}}"
       sha256 "{{"{{.Mac386.Hash}}"}}"
     when /linux/
-      :linux
+      url "https://github.com/{{.UserName}}/{{.Package}}/releases/download/v{{"{{.Version}}"}}/{{"{{.Linux386.FileName}}"}}"
+      sha256 "{{"{{.Linux386.Hash}}"}}"
     when /solaris|bsd/
       :unix
     else

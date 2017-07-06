@@ -36,6 +36,10 @@ type Formula struct {
 	Mac64 ArchiveInfo
 	// Archive information for 386 mac
 	Mac386 ArchiveInfo
+	// Archive information for 64bit Linux
+	Linux64 ArchiveInfo
+	// Archive information for 386 Linux
+	Linux386 ArchiveInfo
 }
 
 // Generate creates a template of a homebrew formula by given variables.
