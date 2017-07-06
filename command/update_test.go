@@ -16,6 +16,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/jkawamoto/fgo/fgo"
 )
 
 const (
@@ -35,7 +37,7 @@ func TestCmdUpdate(t *testing.T) {
 	}
 	defer os.RemoveAll(dir)
 
-	temp := FormulaTemplate{
+	temp := fgo.FormulaTemplate{
 		Package:  "fgo",
 		UserName: "testuser",
 	}

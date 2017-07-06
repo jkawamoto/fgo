@@ -1,5 +1,5 @@
 //
-// command/makefile.go
+// fgo/makefile.go
 //
 // Copyright (c) 2016-2017 Junpei Kawamoto
 //
@@ -8,7 +8,7 @@
 // http://opensource.org/licenses/mit-license.php
 //
 
-package command
+package fgo
 
 // MakefileAsset defines the asset name of Makefile.
 const MakefileAsset = "assets/Makefile"

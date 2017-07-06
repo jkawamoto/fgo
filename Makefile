@@ -14,7 +14,7 @@ GHRFLAGS =
 default: build
 
 asset:
-	go-bindata -pkg command -o command/assets.go -nometadata assets
+	go-bindata -pkg fgo -o fgo/assets.go -nometadata assets
 
 build: asset
 	goxc -d=pkg -pv=$(VERSION) -os="darwin linux"

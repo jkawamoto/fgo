@@ -1,5 +1,5 @@
 //
-// command/formula.go
+// fgo/formula.go
 //
 // Copyright (c) 2016-2017 Junpei Kawamoto
 //
@@ -8,7 +8,7 @@
 // http://opensource.org/licenses/mit-license.php
 //
 
-package command
+package fgo
 
 // FormulaTemplateAsset defines the asset name of a formula template.
 const FormulaTemplateAsset = "assets/formula.rb"

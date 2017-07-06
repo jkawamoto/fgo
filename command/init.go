@@ -17,6 +17,7 @@ import (
 	"path/filepath"
 
 	"github.com/deiwin/interact"
+	"github.com/jkawamoto/fgo/fgo"
 	"github.com/ttacon/chalk"
 	"github.com/urfave/cli"
 
@@ -92,7 +93,7 @@ func cmdInit(opt *InitOpt) (err error) {
 	}
 	if createMakefile {
 		fmt.Printf("Creating Makefile: ")
-		err = createResource("Makefile", &Makefile{
+		err = createResource("Makefile", &fgo.Makefile{
 			Dest:     opt.Config.Package,
 			UserName: opt.UserName,
 		})
@@ -128,7 +129,7 @@ func cmdInit(opt *InitOpt) (err error) {
 		}
 		if createTemplate {
 			fmt.Printf("Creating brew formula template: ")
-			err = createResource(tmpfile, &FormulaTemplate{
+			err = createResource(tmpfile, &fgo.FormulaTemplate{
 				Package:  opt.Repository,
 				UserName: opt.UserName,
 			})

@@ -16,6 +16,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/jkawamoto/fgo/fgo"
 	"github.com/tcnksm/go-gitconfig"
 	"github.com/ttacon/chalk"
 	"github.com/urfave/cli"
@@ -53,7 +54,7 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 		version = "snapshot"
 	}
 
-	param := Formula{
+	param := fgo.Formula{
 		Version: version,
 	}
 
@@ -67,14 +68,14 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 		switch {
 		case strings.Contains(f, "386"):
 			param.Mac386.FileName = filepath.Base(f)
-			param.Mac386.Hash, err = Sha256(f)
+			param.Mac386.Hash, err = fgo.Sha256(f)
 			if err != nil {
 				return
 			}
 
 		case strings.Contains(f, "amd64"):
 			param.Mac64.FileName = filepath.Base(f)
-			param.Mac64.Hash, err = Sha256(f)
+			param.Mac64.Hash, err = fgo.Sha256(f)
 			if err != nil {
 				return
 			}
@@ -90,14 +91,14 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 		switch {
 		case strings.Contains(f, "386"):
 			param.Linux386.FileName = filepath.Base(f)
-			param.Linux386.Hash, err = Sha256(f)
+			param.Linux386.Hash, err = fgo.Sha256(f)
 			if err != nil {
 				return
 			}
 
 		case strings.Contains(f, "amd64"):
 			param.Linux64.FileName = filepath.Base(f)
-			param.Linux64.Hash, err = Sha256(f)
+			param.Linux64.Hash, err = fgo.Sha256(f)
 			if err != nil {
 				return
 			}

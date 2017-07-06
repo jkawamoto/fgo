@@ -4,7 +4,7 @@
 // assets/formula.rb
 // DO NOT EDIT!
 
-package command
+package fgo
 
 import (
 	"bytes"

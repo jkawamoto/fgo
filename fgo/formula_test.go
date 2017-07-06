@@ -1,5 +1,5 @@
 //
-// command/formula_test.go
+// fgo/formula_test.go
 //
 // Copyright (c) 2016-2017 Junpei Kawamoto
 //
@@ -8,7 +8,7 @@
 // http://opensource.org/licenses/mit-license.php
 //
 
-package command
+package fgo
 
 import (
 	"fmt"

@@ -17,6 +17,7 @@ import (
 	"os/exec"
 	"strings"
 
+	"github.com/jkawamoto/fgo/fgo"
 	"github.com/ttacon/chalk"
 	"github.com/urfave/cli"
 )
@@ -113,7 +114,7 @@ func cmdBuild(opt *BuildOpt) (err error) {
 		// use it instead.
 		if opt.GHROpt.Body == "" {
 			var note string
-			note, err = ReleaseNote("CHANGELOG.md", opt.Version)
+			note, err = fgo.ReleaseNote("CHANGELOG.md", opt.Version)
 			if err == nil {
 				opt.GHROpt.Body = strings.Replace(note, `"`, `\"`, -1)
 			}
