@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/jkawamoto/fgo.svg?branch=master)](https://travis-ci.org/jkawamoto/fgo)
 [![wercker status](https://app.wercker.com/status/9ab256a7b25d4d3980ed7821136b4177/s/master "wercker status")](https://app.wercker.com/project/byKey/9ab256a7b25d4d3980ed7821136b4177)
 [![go report](https://goreportcard.com/badge/github.com/jkawamoto/fgo)](https://goreportcard.com/report/github.com/jkawamoto/fgo)
-[![Release](https://img.shields.io/badge/release-0.2.5-brightgreen.svg)](https://github.com/jkawamoto/fgo/releases/tag/v0.2.5)
+[![Release](https://img.shields.io/badge/release-0.3.0-brightgreen.svg)](https://github.com/jkawamoto/fgo/releases/tag/v0.3.0)
 
 [![fgo](https://jkawamoto.github.io/fgo/img/small-banner.png)](https://jkawamoto.github.io/fgo/)
 
