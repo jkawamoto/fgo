@@ -16,6 +16,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/deiwin/interact"
 	"github.com/ttacon/chalk"
 	"github.com/urfave/cli"
 
@@ -64,7 +65,8 @@ func cmdInit(opt *InitOpt) (err error) {
 		fmt.Printf("Checking git configuration to get the user name: ")
 		opt.UserName, err = gitconfig.GithubUser()
 		if err != nil {
-			return fmt.Errorf("Cannot find user name (%s)", err.Error())
+			return cli.NewExitError(
+				fmt.Sprintf(chalk.Red.Color("Cannot find user name (%v)"), err.Error()), 1)
 		}
 		fmt.Println(chalk.Yellow.Color(opt.UserName))
 	}
@@ -72,39 +74,71 @@ func cmdInit(opt *InitOpt) (err error) {
 	// Prepare directories.
 	fmt.Printf("Preparing the directory to store a brew formula: ")
 	if err = prepareDirectory(opt.Config.Homebrew); err != nil {
-		return
+		return cli.NewExitError(
+			fmt.Sprintf(chalk.Red.Color("failed (%v)"), err.Error()), 2)
 	}
-	fmt.Println("done")
+	fmt.Println(chalk.Green.Color("done"))
 
 	// Check Makefile doesn't exist and create it.
-	fmt.Printf("Creating Makefile: ")
-	err = createResource("Makefile", &Makefile{
-		Dest:     opt.Config.Package,
-		UserName: opt.UserName,
-	})
-	if err != nil {
-		fmt.Printf(chalk.Yellow.Color("skipped (%s).\n"), err.Error())
-	} else {
-		fmt.Println("done")
-	}
+	actor := interact.NewActor(os.Stdin, os.Stdout)
 
-	// Check brew rb file doesn't exist and create it.
-	fmt.Printf("Creating a template of homebrew formula: ")
-	if opt.Repository == "" {
-		opt.Repository, err = gitconfig.Repository()
+	createMakefile := true
+	if _, exist := os.Stat("Makefile"); exist == nil {
+		createMakefile, err = actor.Confirm("Makefile already exists. Would you like to overwrite it?", interact.ConfirmDefaultToNo)
+		if err != nil {
+			return cli.NewExitError(
+				fmt.Sprintf(chalk.Red.Color("failed (%v)"), err.Error()), 3)
+		}
 	}
-	if opt.Repository == "" {
-		fmt.Printf(chalk.Red.Color("skipped (%s).\n"), err.Error())
-		fmt.Println(chalk.Yellow.Color("You must re-run init command after setting a remote repository."))
-	} else {
-		err = createResource(filepath.Join(opt.Config.Homebrew, fmt.Sprintf("%s.rb.template", opt.Repository)), &FormulaTemplate{
-			Package:  opt.Repository,
+	if createMakefile {
+		fmt.Printf("Creating Makefile: ")
+		err = createResource("Makefile", &Makefile{
+			Dest:     opt.Config.Package,
 			UserName: opt.UserName,
 		})
 		if err != nil {
-			fmt.Printf(chalk.Yellow.Color("skipped (%s).\n"), err.Error())
+			fmt.Printf(chalk.Yellow.Color("skipped (%s)\n"), err.Error())
 		} else {
 			fmt.Println("done")
+		}
+	} else {
+		fmt.Println("Creating Makefile:", chalk.Yellow.Color("skipped"))
+	}
+
+	// Check brew rb file doesn't exist and create it.
+	if opt.Repository == "" {
+		fmt.Printf("Checking git configuration to get the repository name: ")
+		opt.Repository, err = gitconfig.Repository()
+		if err != nil {
+			fmt.Printf(chalk.Red.Color("skipped (%s).\n"), err.Error())
+			fmt.Println(chalk.Yellow.Color("You must re-run init command after setting a remote repository"))
+		}
+		fmt.Println(chalk.Yellow.Color(opt.Repository))
+	}
+	if opt.Repository != "" {
+		tmpfile := filepath.Join(opt.Config.Homebrew, fmt.Sprintf("%s.rb.template", opt.Repository))
+
+		createTemplate := true
+		if _, exist := os.Stat(tmpfile); exist == nil {
+			createTemplate, err = actor.Confirm("brew formula template already exists. Would you like to overwrite it?", interact.ConfirmDefaultToNo)
+			if err != nil {
+				return cli.NewExitError(
+					fmt.Sprintf(chalk.Red.Color("failed (%v)"), err.Error()), 3)
+			}
+		}
+		if createTemplate {
+			fmt.Printf("Creating brew formula template: ")
+			err = createResource(tmpfile, &FormulaTemplate{
+				Package:  opt.Repository,
+				UserName: opt.UserName,
+			})
+			if err != nil {
+				fmt.Printf(chalk.Yellow.Color("skipped (%s).\n"), err.Error())
+			} else {
+				fmt.Println(chalk.Green.Color("done"))
+			}
+		} else {
+			fmt.Println("Creating brew formula template:", chalk.Yellow.Color("skipped"))
 		}
 	}
 
@@ -129,9 +163,6 @@ func prepareDirectory(path string) error {
 // a given path.
 func createResource(path string, data Generater) (err error) {
 
-	if _, exist := os.Stat(path); exist == nil {
-		return fmt.Errorf("%s already exists", path)
-	}
 	buf, err := data.Generate()
 	if err != nil {
 		return
