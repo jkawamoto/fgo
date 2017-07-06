@@ -38,6 +38,9 @@ func CmdUpdate(c *cli.Context) error {
 	return nil
 }
 
+// cmdUpdate retrives archives of the specified version in the given directory
+// pkg, and updates the brew formula in the given path brew.
+// If version is empty, "snapshot" will be used instead.
 func cmdUpdate(pkg, brew, version string) (err error) {
 
 	fmt.Println(chalk.Bold.TextStyle("Updating brew formula."))
@@ -54,8 +57,9 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 		Version: version,
 	}
 
-	glob := filepath.Join(pkg, version, "*darwin*.zip")
-	matches, err := filepath.Glob(glob)
+	var matches []string
+	// Find archives for Mac.
+	matches, err = filepath.Glob(filepath.Join(pkg, version, "*darwin*.zip"))
 	if err != nil {
 		return
 	}
@@ -71,6 +75,29 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 		case strings.Contains(f, "amd64"):
 			param.Mac64.FileName = filepath.Base(f)
 			param.Mac64.Hash, err = Sha256(f)
+			if err != nil {
+				return
+			}
+		}
+	}
+
+	// Find archives for Linux.
+	matches, err = filepath.Glob(filepath.Join(pkg, version, "*linux*.tar.gz"))
+	if err != nil {
+		return
+	}
+	for _, f := range matches {
+		switch {
+		case strings.Contains(f, "386"):
+			param.Linux386.FileName = filepath.Base(f)
+			param.Linux386.Hash, err = Sha256(f)
+			if err != nil {
+				return
+			}
+
+		case strings.Contains(f, "amd64"):
+			param.Linux64.FileName = filepath.Base(f)
+			param.Linux64.Hash, err = Sha256(f)
 			if err != nil {
 				return
 			}
