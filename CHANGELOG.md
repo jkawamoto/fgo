@@ -1,3 +1,10 @@
+## 0.3.0 (2017-07-06)
+### Update
+- Configuration file isn't used any more
+- `init` command asks when overwriting existing files
+- Supports [linuxbrew](http://linuxbrew.sh/)
+
+
 ## 0.2.5 (2017-06-16)
 ### Update
 - `build` command takes option flags for [`ghr`](http://tcnksm.github.io/ghr/)
