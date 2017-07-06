@@ -24,8 +24,8 @@
 &lt;a href=&#34;https://github.com/jkawamoto/fgo/releases/tag/v0.3.0&#34;&gt;&lt;img src=&#34;https://img.shields.io/badge/release-0.3.0-brightgreen.svg&#34; alt=&#34;Release&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Formula Go helps you to build and upload your software written in
-&lt;a href=&#34;https://golang.org/&#34;&gt;Go&lt;/a&gt;, and prepare a &lt;a href=&#34;http://brew.sh/&#34;&gt;homebrew&lt;/a&gt; formula
-for it.&lt;/p&gt;
+&lt;a href=&#34;https://golang.org/&#34;&gt;Go&lt;/a&gt;;
+and then prepare &lt;a href=&#34;http://brew.sh/&#34;&gt;homebrew&lt;/a&gt; and &lt;a href=&#34;http://linuxbrew.sh/&#34;&gt;linuxbrew&lt;/a&gt; formulae and for it.&lt;/p&gt;
 
 &lt;p&gt;Formula Go assumes your software is hosted in &lt;a href=&#34;https://github.com/&#34;&gt;GitHub&lt;/a&gt;,
 and the pre-compiled binaries are uploaded in the release page of it.&lt;/p&gt;
@@ -33,16 +33,18 @@ and the pre-compiled binaries are uploaded in the release page of it.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;fgo [global options] command [arguments...]
 
 COMMANDS:
-     init     create Makefile and other related directories.
-     build    build binaries, upload them, and update the brew formula.
-     update   update the brew formula.
-     help, h  Shows a list of commands or help for one command
+    init     create Makefile and other related directories.
+    build    build binaries, upload them, and update the brew formula.
+    update   update the brew formula.
+    help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --pkg NAME, -p NAME   overwrite directory NAME to store package files. (Default: pkg)
-   --brew NAME, -b NAME  overwrite directory NAME to store homebrew formula. (Default: homebrew)
-   --help, -h            show help
-   --version, -v         print the version
+    --pkg NAME, -p NAME   directory NAME to store package files
+                          (default: &amp;quot;pkg&amp;quot;)
+    --brew NAME, -b NAME  directory NAME to store homebrew formula
+                          (default: &amp;quot;homebrew&amp;quot;)
+    --help, -h            show help
+    --version, -v         print the version
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&#34;initialization&#34;&gt;Initialization&lt;/h3&gt;
@@ -50,11 +52,11 @@ GLOBAL OPTIONS:
 &lt;p&gt;After starting your project, initialization is required.
 To initialize Formula Go, run &lt;code&gt;fgo init&lt;/code&gt;.
 It creates a Makefile, which will be used to compile your project,
-and a template of homebrew formula. If a Makefile or a template of homebrew
-formula already exist, fgo won&amp;rsquo;t overwrite them.&lt;/p&gt;
+and a homebrew formula template.&lt;/p&gt;
 
-&lt;p&gt;To create the template of homebrew formula, a user name and a repository name
-in GitHub is required. By default, fgo checks your git configuration to get
+&lt;p&gt;To create the homebrew formula template,
+GitHub&amp;rsquo;s user name and repository name are required.
+By default, Formula Go checks your git configuration to get
 those information but you can given them by the arguments.&lt;/p&gt;
 
 &lt;p&gt;If your git configuration doesn&amp;rsquo;t have both information and you don&amp;rsquo;t give them
@@ -120,13 +122,17 @@ re-update it to a specific version. This command do that.&lt;/p&gt;
 
 &lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
 
+&lt;p&gt;Formula Go is available in &lt;a href=&#34;http://brew.sh/&#34;&gt;homebrew&lt;/a&gt; and
+&lt;a href=&#34;http://linuxbrew.sh/&#34;&gt;linuxbrew&lt;/a&gt;.&lt;/p&gt;
+
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ brew tap jkawamoto/fgo
 $ brew install fgo
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Formula Go requires make, &lt;a href=&#34;https://github.com/laher/goxc&#34;&gt;goxc&lt;/a&gt;, and
 &lt;a href=&#34;https://github.com/tcnksm/ghr&#34;&gt;ghr&lt;/a&gt;.
-The above &lt;code&gt;brew install&lt;/code&gt; command also installs those dependencies if necessary.&lt;/p&gt;
+The above &lt;code&gt;brew install&lt;/code&gt; command also installs those dependencies
+if necessary.&lt;/p&gt;
 
 &lt;h2 id=&#34;license&#34;&gt;License&lt;/h2&gt;
 
