@@ -1,3 +1,13 @@
+//
+// command/update.go
+//
+// Copyright (c) 2016-2017 Junpei Kawamoto
+//
+// This software is released under the MIT License.
+//
+// http://opensource.org/licenses/mit-license.php
+//
+
 package command
 
 import (
@@ -11,6 +21,7 @@ import (
 	"github.com/urfave/cli"
 )
 
+// CmdUpdate implements update command.
 func CmdUpdate(c *cli.Context) error {
 
 	if c.NArg() != 1 {
@@ -27,6 +38,9 @@ func CmdUpdate(c *cli.Context) error {
 	return nil
 }
 
+// cmdUpdate retrives archives of the specified version in the given directory
+// pkg, and updates the brew formula in the given path brew.
+// If version is empty, "snapshot" will be used instead.
 func cmdUpdate(pkg, brew, version string) (err error) {
 
 	fmt.Println(chalk.Bold.TextStyle("Updating brew formula."))
@@ -43,23 +57,47 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 		Version: version,
 	}
 
-	glob := filepath.Join(pkg, version, "*darwin*.zip")
-	matches, err := filepath.Glob(glob)
+	var matches []string
+	// Find archives for Mac.
+	matches, err = filepath.Glob(filepath.Join(pkg, version, "*darwin*.zip"))
 	if err != nil {
 		return
 	}
 	for _, f := range matches {
 		switch {
 		case strings.Contains(f, "386"):
-			param.FileName386 = filepath.Base(f)
-			param.Hash386, err = Sha256(f)
+			param.Mac386.FileName = filepath.Base(f)
+			param.Mac386.Hash, err = Sha256(f)
 			if err != nil {
 				return
 			}
 
 		case strings.Contains(f, "amd64"):
-			param.FileName64 = filepath.Base(f)
-			param.Hash64, err = Sha256(f)
+			param.Mac64.FileName = filepath.Base(f)
+			param.Mac64.Hash, err = Sha256(f)
+			if err != nil {
+				return
+			}
+		}
+	}
+
+	// Find archives for Linux.
+	matches, err = filepath.Glob(filepath.Join(pkg, version, "*linux*.tar.gz"))
+	if err != nil {
+		return
+	}
+	for _, f := range matches {
+		switch {
+		case strings.Contains(f, "386"):
+			param.Linux386.FileName = filepath.Base(f)
+			param.Linux386.Hash, err = Sha256(f)
+			if err != nil {
+				return
+			}
+
+		case strings.Contains(f, "amd64"):
+			param.Linux64.FileName = filepath.Base(f)
+			param.Linux64.Hash, err = Sha256(f)
 			if err != nil {
 				return
 			}
@@ -67,7 +105,7 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 	}
 
 	// Check binary files are found in local.
-	if param.FileName386 == "" || param.FileName64 == "" {
+	if param.Mac386.FileName == "" || param.Mac64.FileName == "" {
 		return fmt.Errorf(chalk.Red.Color("Binary files are not found. Run build command instead.\n"))
 	}
 
