@@ -19,15 +19,24 @@ import (
 	"github.com/urfave/cli"
 )
 
+const (
+	// DefaultPackageDir defines default package directory.
+	DefaultPackageDir = "pkg"
+	// DefaultHomebrewDir defines default homebrew formula directory.
+	DefaultHomebrewDir = "homebrew"
+)
+
 // GlobalFlags defines global flags.
 var GlobalFlags = []cli.Flag{
 	cli.StringFlag{
 		Name:  "pkg, p",
-		Usage: "overwrite directory `NAME` to store package files. (Default: pkg)",
+		Usage: "directory `NAME` to store package files",
+		Value: DefaultPackageDir,
 	},
 	cli.StringFlag{
 		Name:  "brew, b",
-		Usage: "overwrite directory `NAME` to store homebrew formula. (Default: homebrew)",
+		Usage: "directory `NAME` to store homebrew formula",
+		Value: DefaultHomebrewDir,
 	},
 }
 
@@ -36,7 +45,7 @@ var Commands = []cli.Command{
 	{
 		Name:      "init",
 		Usage:     "create Makefile and other related directories.",
-		ArgsUsage: "[user name] [repository name]",
+		ArgsUsage: "[user name [repository name]]",
 		Description: `init command creates a Makefile which will be used to compile your project,
 and a template of homebrew formula. If a Makefile or a template of homebrew
 formula already exist, fgo won't overwrite them.

@@ -142,8 +142,7 @@ func cmdInit(opt *InitOpt) (err error) {
 		}
 	}
 
-	fmt.Printf("Storing configurations to %s.\n", ConfigFile)
-	return opt.Config.Save(ConfigFile)
+	return
 
 }
 
