@@ -9,26 +9,22 @@
 #
 VERSION = snapshot
 GHRFLAGS =
+.PHONY: asset build release get-deps test
 
 default: build
 
-.PHONY: asset
 asset:
 	go-bindata -pkg command -o command/assets.go -nometadata assets
 
-.PHONY: build
 build: asset
-	goxc -d=pkg -pv=$(VERSION) -os="darwin"
+	goxc -d=pkg -pv=$(VERSION) -os="darwin linux"
 
-.PHONY: release
 release:
 	ghr  -u jkawamoto $(GHRFLAGS) v$(VERSION) pkg/$(VERSION)
 
-.PHONY: get-deps
 get-deps:
 	go get -u github.com/jteeuwen/go-bindata/...
 	go get -d -t -v .
 
-.PHONY: test
 test: asset
 	go test -v ./...
