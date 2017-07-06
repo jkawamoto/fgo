@@ -18,6 +18,7 @@ import (
 
 	"github.com/deiwin/interact"
 	"github.com/jkawamoto/fgo/fgo"
+	colorable "github.com/mattn/go-colorable"
 	"github.com/ttacon/chalk"
 	"github.com/urfave/cli"
 
@@ -50,71 +51,69 @@ func CmdInit(c *cli.Context) error {
 		UserName:   c.Args().First(),
 		Repository: c.Args().Get(1),
 	}
-
-	if err := cmdInit(&opt); err != nil {
-		return cli.NewExitError(chalk.Red.Color(err.Error()), 1)
-	}
-	return nil
+	return cmdInit(&opt)
 
 }
 
 // cmdInit defines init command action.
 func cmdInit(opt *InitOpt) (err error) {
 
+	stdout := colorable.NewColorableStdout()
+
 	// Check user name.
 	if opt.UserName == "" {
-		fmt.Printf("Checking git configuration to get the user name: ")
+		fmt.Fprintf(stdout, "Checking git configuration to get the user name: ")
 		opt.UserName, err = gitconfig.GithubUser()
 		if err != nil {
-			return cli.NewExitError(
-				fmt.Sprintf(chalk.Red.Color("Cannot find user name (%v)"), err.Error()), 1)
+			fmt.Fprintf(stdout, chalk.Red.Color("Cannot find user name (%v)"), err.Error())
+			return cli.NewExitError("", 1)
 		}
-		fmt.Println(chalk.Yellow.Color(opt.UserName))
+		fmt.Fprintln(stdout, chalk.Yellow.Color(opt.UserName))
 	}
 
 	// Prepare directories.
-	fmt.Printf("Preparing the directory to store a brew formula: ")
+	fmt.Fprintf(stdout, "Preparing the directory to store a brew formula: ")
 	if err = prepareDirectory(opt.Config.Homebrew); err != nil {
-		return cli.NewExitError(
-			fmt.Sprintf(chalk.Red.Color("failed (%v)"), err.Error()), 2)
+		fmt.Fprintf(stdout, chalk.Red.Color("failed (%v)"), err.Error())
+		return cli.NewExitError("", 2)
 	}
-	fmt.Println(chalk.Green.Color("done"))
+	fmt.Fprintln(stdout, chalk.Green.Color("done"))
 
 	// Check Makefile doesn't exist and create it.
-	actor := interact.NewActor(os.Stdin, os.Stdout)
+	actor := interact.NewActor(os.Stdin, stdout)
 
 	createMakefile := true
 	if _, exist := os.Stat("Makefile"); exist == nil {
 		createMakefile, err = actor.Confirm("Makefile already exists. Would you like to overwrite it?", interact.ConfirmDefaultToNo)
 		if err != nil {
-			return cli.NewExitError(
-				fmt.Sprintf(chalk.Red.Color("failed (%v)"), err.Error()), 3)
+			fmt.Fprintf(stdout, chalk.Red.Color("failed (%v)"), err.Error())
+			return cli.NewExitError("", 3)
 		}
 	}
 	if createMakefile {
-		fmt.Printf("Creating Makefile: ")
+		fmt.Fprintf(stdout, "Creating Makefile: ")
 		err = createResource("Makefile", &fgo.Makefile{
 			Dest:     opt.Config.Package,
 			UserName: opt.UserName,
 		})
 		if err != nil {
-			fmt.Printf(chalk.Yellow.Color("skipped (%s)\n"), err.Error())
+			fmt.Fprintf(stdout, chalk.Yellow.Color("skipped (%s)\n"), err.Error())
 		} else {
-			fmt.Println("done")
+			fmt.Fprintln(stdout, chalk.Green.Color("done"))
 		}
 	} else {
-		fmt.Println("Creating Makefile:", chalk.Yellow.Color("skipped"))
+		fmt.Fprintln(stdout, "Creating Makefile:", chalk.Yellow.Color("skipped"))
 	}
 
 	// Check brew rb file doesn't exist and create it.
 	if opt.Repository == "" {
-		fmt.Printf("Checking git configuration to get the repository name: ")
+		fmt.Fprintf(stdout, "Checking git configuration to get the repository name: ")
 		opt.Repository, err = gitconfig.Repository()
 		if err != nil {
-			fmt.Printf(chalk.Red.Color("skipped (%s).\n"), err.Error())
-			fmt.Println(chalk.Yellow.Color("You must re-run init command after setting a remote repository"))
+			fmt.Fprintf(stdout, chalk.Red.Color("skipped (%s).\n"), err.Error())
+			fmt.Fprintln(stdout, chalk.Yellow.Color("You must re-run init command after setting a remote repository"))
 		}
-		fmt.Println(chalk.Yellow.Color(opt.Repository))
+		fmt.Fprintln(stdout, chalk.Yellow.Color(opt.Repository))
 	}
 	if opt.Repository != "" {
 		tmpfile := filepath.Join(opt.Config.Homebrew, fmt.Sprintf("%s.rb.template", opt.Repository))
@@ -123,23 +122,23 @@ func cmdInit(opt *InitOpt) (err error) {
 		if _, exist := os.Stat(tmpfile); exist == nil {
 			createTemplate, err = actor.Confirm("brew formula template already exists. Would you like to overwrite it?", interact.ConfirmDefaultToNo)
 			if err != nil {
-				return cli.NewExitError(
-					fmt.Sprintf(chalk.Red.Color("failed (%v)"), err.Error()), 3)
+				fmt.Fprintf(stdout, chalk.Red.Color("failed (%v)"), err.Error())
+				return cli.NewExitError("", 3)
 			}
 		}
 		if createTemplate {
-			fmt.Printf("Creating brew formula template: ")
+			fmt.Fprintf(stdout, "Creating brew formula template: ")
 			err = createResource(tmpfile, &fgo.FormulaTemplate{
 				Package:  opt.Repository,
 				UserName: opt.UserName,
 			})
 			if err != nil {
-				fmt.Printf(chalk.Yellow.Color("skipped (%s).\n"), err.Error())
+				fmt.Fprintf(stdout, chalk.Yellow.Color("skipped (%s).\n"), err.Error())
 			} else {
-				fmt.Println(chalk.Green.Color("done"))
+				fmt.Fprintln(stdout, chalk.Green.Color("done"))
 			}
 		} else {
-			fmt.Println("Creating brew formula template:", chalk.Yellow.Color("skipped"))
+			fmt.Fprintln(stdout, "Creating brew formula template:", chalk.Yellow.Color("skipped"))
 		}
 	}
 

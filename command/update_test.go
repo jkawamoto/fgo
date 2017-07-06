@@ -51,6 +51,7 @@ func TestCmdUpdate(t *testing.T) {
 	}
 
 	for _, pkg := range pkgs {
+		pkg = filepath.ToSlash(pkg)
 		sp := strings.Split(pkg, "/")
 		version := sp[len(sp)-1]
 

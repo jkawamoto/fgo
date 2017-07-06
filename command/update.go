@@ -17,6 +17,7 @@ import (
 	"strings"
 
 	"github.com/jkawamoto/fgo/fgo"
+	colorable "github.com/mattn/go-colorable"
 	"github.com/tcnksm/go-gitconfig"
 	"github.com/ttacon/chalk"
 	"github.com/urfave/cli"
@@ -24,9 +25,10 @@ import (
 
 // CmdUpdate implements update command.
 func CmdUpdate(c *cli.Context) error {
+	stderr := colorable.NewColorableStderr()
 
 	if c.NArg() != 1 {
-		fmt.Printf(chalk.Red.Color("expected one argument. (%d given)\n"), c.NArg())
+		fmt.Fprintf(stderr, chalk.Red.Color("expected one argument. (%d given)\n"), c.NArg())
 		return cli.ShowSubcommandHelp(c)
 	}
 
@@ -34,7 +36,8 @@ func CmdUpdate(c *cli.Context) error {
 	brew := c.GlobalString(HomebrewFlag)
 
 	if err := cmdUpdate(pkg, brew, c.Args().First()); err != nil {
-		return cli.NewExitError(err.Error(), 1)
+		fmt.Fprint(stderr, err.Error())
+		return cli.NewExitError("", 10)
 	}
 	return nil
 }
@@ -44,7 +47,9 @@ func CmdUpdate(c *cli.Context) error {
 // If version is empty, "snapshot" will be used instead.
 func cmdUpdate(pkg, brew, version string) (err error) {
 
-	fmt.Println(chalk.Bold.TextStyle("Updating brew formula."))
+	stdout := colorable.NewColorableStdout()
+
+	fmt.Fprintln(stdout, chalk.Bold.TextStyle("Updating brew formula."))
 	repo, err := gitconfig.Repository()
 	if err != nil {
 		return
@@ -107,7 +112,7 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 
 	// Check binary files are found in local.
 	if param.Mac386.FileName == "" || param.Mac64.FileName == "" {
-		return fmt.Errorf(chalk.Red.Color("Binary files are not found. Run build command instead.\n"))
+		return fmt.Errorf(chalk.Red.Color("Binary files are not found. Run build command instead"))
 	}
 
 	data, err := param.Generate(filepath.Join(brew, fmt.Sprintf("%s.rb.template", repo)))
