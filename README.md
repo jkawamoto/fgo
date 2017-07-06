@@ -8,8 +8,8 @@
 [![fgo](https://jkawamoto.github.io/fgo/img/small-banner.png)](https://jkawamoto.github.io/fgo/)
 
 Formula Go helps you to build and upload your software written in
-[Go](https://golang.org/), and prepare a [homebrew](http://brew.sh/) formula
-for it.
+[Go](https://golang.org/);
+and then prepare [homebrew](http://brew.sh/) and [linuxbrew](http://linuxbrew.sh/) formulae and for it.
 
 Formula Go assumes your software is hosted in [GitHub](https://github.com/),
 and the pre-compiled binaries are uploaded in the release page of it.
@@ -19,27 +19,29 @@ and the pre-compiled binaries are uploaded in the release page of it.
 fgo [global options] command [arguments...]
 
 COMMANDS:
-     init     create Makefile and other related directories.
-     build    build binaries, upload them, and update the brew formula.
-     update   update the brew formula.
-     help, h  Shows a list of commands or help for one command
+    init     create Makefile and other related directories.
+    build    build binaries, upload them, and update the brew formula.
+    update   update the brew formula.
+    help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --pkg NAME, -p NAME   overwrite directory NAME to store package files. (Default: pkg)
-   --brew NAME, -b NAME  overwrite directory NAME to store homebrew formula. (Default: homebrew)
-   --help, -h            show help
-   --version, -v         print the version
+    --pkg NAME, -p NAME   directory NAME to store package files
+                          (default: "pkg")
+    --brew NAME, -b NAME  directory NAME to store homebrew formula
+                          (default: "homebrew")
+    --help, -h            show help
+    --version, -v         print the version
 ~~~
 
 ### Initialization
 After starting your project, initialization is required.
 To initialize Formula Go, run `fgo init`.
 It creates a Makefile, which will be used to compile your project,
-and a template of homebrew formula. If a Makefile or a template of homebrew
-formula already exist, fgo won't overwrite them.
+and a homebrew formula template.
 
-To create the template of homebrew formula, a user name and a repository name
-in GitHub is required. By default, fgo checks your git configuration to get
+To create the homebrew formula template,
+GitHub's user name and repository name are required.
+By default, Formula Go checks your git configuration to get
 those information but you can given them by the arguments.
 
 If your git configuration doesn't have both information and you don't give them
@@ -99,6 +101,9 @@ re-update it to a specific version. This command do that.
 
 
 ## Installation
+Formula Go is available in [homebrew](http://brew.sh/) and
+[linuxbrew](http://linuxbrew.sh/).
+
 ```shell
 $ brew tap jkawamoto/fgo
 $ brew install fgo
@@ -106,7 +111,8 @@ $ brew install fgo
 
 Formula Go requires make, [goxc](https://github.com/laher/goxc), and
 [ghr](https://github.com/tcnksm/ghr).
-The above `brew install` command also installs those dependencies if necessary.
+The above `brew install` command also installs those dependencies
+if necessary.
 
 
 ## License

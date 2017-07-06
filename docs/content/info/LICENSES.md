@@ -2,6 +2,7 @@
 title: Licenses
 description: License information of loci.
 date: 2016-12-14
+lastmod: 2017-07-06
 slug: licenses
 ---
 This software is released under the MIT License.
