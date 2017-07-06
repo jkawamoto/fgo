@@ -33,6 +33,8 @@ type InitOpt struct {
 	UserName string
 	// GitHub repository name.
 	Repository string
+	// Description of the target application.
+	Description string
 }
 
 // Generater is an interface provides Generate method.
@@ -48,8 +50,9 @@ func CmdInit(c *cli.Context) error {
 			Package:  c.GlobalString(PackageFlag),
 			Homebrew: c.GlobalString(HomebrewFlag),
 		},
-		UserName:   c.Args().First(),
-		Repository: c.Args().Get(1),
+		UserName:    c.Args().First(),
+		Repository:  c.Args().Get(1),
+		Description: c.String("desc"),
 	}
 	return cmdInit(&opt)
 
@@ -129,8 +132,9 @@ func cmdInit(opt *InitOpt) (err error) {
 		if createTemplate {
 			fmt.Fprintf(stdout, "Creating brew formula template: ")
 			err = createResource(tmpfile, &fgo.FormulaTemplate{
-				Package:  opt.Repository,
-				UserName: opt.UserName,
+				Package:     opt.Repository,
+				UserName:    opt.UserName,
+				Description: opt.Description,
 			})
 			if err != nil {
 				fmt.Fprintf(stdout, chalk.Yellow.Color("skipped (%s).\n"), err.Error())
