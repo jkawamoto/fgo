@@ -16,6 +16,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/jkawamoto/fgo/fgo"
+	colorable "github.com/mattn/go-colorable"
 	"github.com/tcnksm/go-gitconfig"
 	"github.com/ttacon/chalk"
 	"github.com/urfave/cli"
@@ -23,9 +25,10 @@ import (
 
 // CmdUpdate implements update command.
 func CmdUpdate(c *cli.Context) error {
+	stderr := colorable.NewColorableStderr()
 
 	if c.NArg() != 1 {
-		fmt.Printf(chalk.Red.Color("expected one argument. (%d given)\n"), c.NArg())
+		fmt.Fprintf(stderr, chalk.Red.Color("expected one argument. (%d given)\n"), c.NArg())
 		return cli.ShowSubcommandHelp(c)
 	}
 
@@ -33,7 +36,8 @@ func CmdUpdate(c *cli.Context) error {
 	brew := c.GlobalString(HomebrewFlag)
 
 	if err := cmdUpdate(pkg, brew, c.Args().First()); err != nil {
-		return cli.NewExitError(err.Error(), 1)
+		fmt.Fprint(stderr, err.Error())
+		return cli.NewExitError("", 10)
 	}
 	return nil
 }
@@ -43,7 +47,9 @@ func CmdUpdate(c *cli.Context) error {
 // If version is empty, "snapshot" will be used instead.
 func cmdUpdate(pkg, brew, version string) (err error) {
 
-	fmt.Println(chalk.Bold.TextStyle("Updating brew formula."))
+	stdout := colorable.NewColorableStdout()
+
+	fmt.Fprintln(stdout, chalk.Bold.TextStyle("Updating brew formula."))
 	repo, err := gitconfig.Repository()
 	if err != nil {
 		return
@@ -53,7 +59,7 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 		version = "snapshot"
 	}
 
-	param := Formula{
+	param := fgo.Formula{
 		Version: version,
 	}
 
@@ -67,14 +73,14 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 		switch {
 		case strings.Contains(f, "386"):
 			param.Mac386.FileName = filepath.Base(f)
-			param.Mac386.Hash, err = Sha256(f)
+			param.Mac386.Hash, err = fgo.Sha256(f)
 			if err != nil {
 				return
 			}
 
 		case strings.Contains(f, "amd64"):
 			param.Mac64.FileName = filepath.Base(f)
-			param.Mac64.Hash, err = Sha256(f)
+			param.Mac64.Hash, err = fgo.Sha256(f)
 			if err != nil {
 				return
 			}
@@ -90,14 +96,14 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 		switch {
 		case strings.Contains(f, "386"):
 			param.Linux386.FileName = filepath.Base(f)
-			param.Linux386.Hash, err = Sha256(f)
+			param.Linux386.Hash, err = fgo.Sha256(f)
 			if err != nil {
 				return
 			}
 
 		case strings.Contains(f, "amd64"):
 			param.Linux64.FileName = filepath.Base(f)
-			param.Linux64.Hash, err = Sha256(f)
+			param.Linux64.Hash, err = fgo.Sha256(f)
 			if err != nil {
 				return
 			}
@@ -106,7 +112,7 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 
 	// Check binary files are found in local.
 	if param.Mac386.FileName == "" || param.Mac64.FileName == "" {
-		return fmt.Errorf(chalk.Red.Color("Binary files are not found. Run build command instead.\n"))
+		return fmt.Errorf(chalk.Red.Color("Binary files are not found. Run build command instead"))
 	}
 
 	data, err := param.Generate(filepath.Join(brew, fmt.Sprintf("%s.rb.template", repo)))

@@ -12,11 +12,11 @@ package command
 
 import (
 	"fmt"
-	"io"
-	"os"
 	"os/exec"
 	"strings"
 
+	"github.com/jkawamoto/fgo/fgo"
+	colorable "github.com/mattn/go-colorable"
 	"github.com/ttacon/chalk"
 	"github.com/urfave/cli"
 )
@@ -103,8 +103,11 @@ func CmdBuild(c *cli.Context) error {
 
 func cmdBuild(opt *BuildOpt) (err error) {
 
+	stdout := colorable.NewColorableStdout()
+	stderr := colorable.NewColorableStderr()
+
 	// Build and upload via make.
-	fmt.Println(chalk.Bold.TextStyle("Building binaries."))
+	fmt.Fprintln(stdout, chalk.Bold.TextStyle("Building binaries."))
 
 	var cmd *exec.Cmd
 	if opt.Version != "" {
@@ -113,7 +116,7 @@ func cmdBuild(opt *BuildOpt) (err error) {
 		// use it instead.
 		if opt.GHROpt.Body == "" {
 			var note string
-			note, err = ReleaseNote("CHANGELOG.md", opt.Version)
+			note, err = fgo.ReleaseNote("CHANGELOG.md", opt.Version)
 			if err == nil {
 				opt.GHROpt.Body = strings.Replace(note, `"`, `\"`, -1)
 			}
@@ -126,18 +129,8 @@ func cmdBuild(opt *BuildOpt) (err error) {
 		fmt.Println("Version is not given, set `snapshot`")
 		cmd = exec.Command("make", "build")
 	}
-
-	stdout, err := cmd.StdoutPipe()
-	if err != nil {
-		return
-	}
-	go io.Copy(os.Stdout, stdout)
-
-	stderr, err := cmd.StderrPipe()
-	if err != nil {
-		return
-	}
-	go io.Copy(os.Stderr, stderr)
+	cmd.Stdout = stdout
+	cmd.Stderr = stderr
 
 	if err = cmd.Run(); err != nil {
 		return

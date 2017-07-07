@@ -1,5 +1,5 @@
 //
-// command/formula_test.go
+// fgo/formula_test.go
 //
 // Copyright (c) 2016-2017 Junpei Kawamoto
 //
@@ -8,7 +8,7 @@
 // http://opensource.org/licenses/mit-license.php
 //
 
-package command
+package fgo
 
 import (
 	"fmt"
@@ -21,8 +21,9 @@ import (
 func TestFormulaTemplate(t *testing.T) {
 
 	param := FormulaTemplate{
-		Package:  "test",
-		UserName: "abcde",
+		Package:     "test",
+		UserName:    "abcde",
+		Description: "sample text",
 	}
 
 	data, err := param.Generate()
@@ -40,6 +41,9 @@ func TestFormulaTemplate(t *testing.T) {
 	}
 	if !strings.Contains(res, "bin.install \"test\"") {
 		t.Error("Generated file has wrong install command.", res)
+	}
+	if !strings.Contains(res, `desc "sample text"`) {
+		t.Error("Generated file doesn't have correct description", res)
 	}
 
 }

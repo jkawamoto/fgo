@@ -1,6 +1,6 @@
 require 'rbconfig'
 class {{.Package | Title}} < Formula
-  desc ""
+  desc "{{.Description}}"
   homepage "https://github.com/{{.UserName}}/{{.Package}}"
   version "{{"{{.Version}}"}}"
 

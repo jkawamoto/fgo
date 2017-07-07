@@ -39,14 +39,12 @@ func TestCmdInit(t *testing.T) {
 		UserName: "test-name",
 	}
 	if err = cmdInit(&opt); err != nil {
-		t.Error(err.Error())
-		return
+		t.Fatal(err.Error())
 	}
 
 	raw, err := ioutil.ReadFile("Makefile")
 	if err != nil {
-		t.Error(err.Error())
-		return
+		t.Fatal(err.Error())
 	}
 	makefile := string(raw)
 	if !strings.Contains(makefile, "goxc -d=test-package") {
@@ -58,19 +56,46 @@ func TestCmdInit(t *testing.T) {
 
 	raw, err = ioutil.ReadFile("test-homebrew/fgo.rb.template")
 	if err != nil {
-		t.Error(err.Error())
-		return
+		t.Fatal(err.Error())
 	}
 	formula := string(raw)
 	if !strings.Contains(formula, "https://github.com/test-name/") {
 		t.Errorf("Formula template has wrong user name.\n%s\n", formula)
 	}
+	if !strings.Contains(formula, `desc ""`) {
+		t.Error("Formula template has wrong description", formula)
+	}
+	os.Remove("Makefile")
+	os.Remove("test-homebrew/fgo.rb.template")
+
+	// Test w/ description.
+	opt = InitOpt{
+		Config: Config{
+			Package:  "test-package",
+			Homebrew: "test-homebrew",
+		},
+		UserName:    "test-name",
+		Description: "sample description",
+	}
+	if err = cmdInit(&opt); err != nil {
+		t.Fatal(err.Error())
+	}
+
+	raw, err = ioutil.ReadFile("test-homebrew/fgo.rb.template")
+	if err != nil {
+		t.Fatal(err.Error())
+	}
+	formula = string(raw)
+	if !strings.Contains(formula, `desc "sample description"`) {
+		t.Error("Formula template has wrong description", formula)
+	}
+	os.Remove("Makefile")
+	os.Remove("test-homebrew/fgo.rb.template")
 
 	// Test w/o username.
 	// This test should be only run on local computers.
 	if os.Getenv("LOCAL") == "true" {
 
-		os.Remove("Makefile")
 		opt = InitOpt{
 			Config: Config{
 				Package:  "test-package",
@@ -78,13 +103,11 @@ func TestCmdInit(t *testing.T) {
 			},
 		}
 		if err = cmdInit(&opt); err != nil {
-			t.Error(err.Error())
-			return
+			t.Fatal(err.Error())
 		}
 		raw, err = ioutil.ReadFile("Makefile")
 		if err != nil {
-			t.Error(err.Error())
-			return
+			t.Fatal(err.Error())
 		}
 		makefile = string(raw)
 		if !strings.Contains(makefile, "-u jkawamoto") {

@@ -16,6 +16,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/jkawamoto/fgo/fgo"
 )
 
 const (
@@ -35,7 +37,7 @@ func TestCmdUpdate(t *testing.T) {
 	}
 	defer os.RemoveAll(dir)
 
-	temp := FormulaTemplate{
+	temp := fgo.FormulaTemplate{
 		Package:  "fgo",
 		UserName: "testuser",
 	}
@@ -49,6 +51,7 @@ func TestCmdUpdate(t *testing.T) {
 	}
 
 	for _, pkg := range pkgs {
+		pkg = filepath.ToSlash(pkg)
 		sp := strings.Split(pkg, "/")
 		version := sp[len(sp)-1]
 

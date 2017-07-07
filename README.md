@@ -1,5 +1,5 @@
 # Formula Go
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://jkawamoto.github.io/fgo/info/licenses/)
 [![Build Status](https://travis-ci.org/jkawamoto/fgo.svg?branch=master)](https://travis-ci.org/jkawamoto/fgo)
 [![wercker status](https://app.wercker.com/status/9ab256a7b25d4d3980ed7821136b4177/s/master "wercker status")](https://app.wercker.com/project/byKey/9ab256a7b25d4d3980ed7821136b4177)
 [![go report](https://goreportcard.com/badge/github.com/jkawamoto/fgo)](https://goreportcard.com/report/github.com/jkawamoto/fgo)
@@ -116,4 +116,4 @@ if necessary.
 
 
 ## License
-This software is released under the MIT License, see [LICENSE](LICENSES.md).
+This software is released under the MIT License, see [LICENSE](https://jkawamoto.github.io/fgo/info/licenses/).

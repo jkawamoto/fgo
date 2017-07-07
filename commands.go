@@ -61,6 +61,12 @@ you need to re-run init command after setting git configuration.
 You can edit the Makefile and the template of homebrew formula, but build and
 release targets are necessary to run build command.`,
 		Action: command.CmdInit,
+		Flags: []cli.Flag{
+			cli.StringFlag{
+				Name:  "desc, d",
+				Usage: "Set `TEXT` to description section of the formula template",
+			},
+		},
 	},
 	{
 		Name:      "build",
