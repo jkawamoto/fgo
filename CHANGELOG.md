@@ -1,3 +1,11 @@
+## 0.3.1 (2017-07-07)
+### Update
+- `init` command takes `--desc` flag to specify description in brew formulae
+
+### Fixed
+- Output messages in Windows
+
+
 ## 0.3.0 (2017-07-06)
 ### Update
 - Configuration file isn't used any more
