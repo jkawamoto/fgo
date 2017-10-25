@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
     <loc>https://jkawamoto.github.io/fgo/readme/</loc>
@@ -12,6 +13,11 @@
   </url>
   
   <url>
+    <loc>https://jkawamoto.github.io/fgo/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://jkawamoto.github.io/fgo/</loc>
     <lastmod>2017-07-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -20,6 +26,11 @@
   <url>
     <loc>https://jkawamoto.github.io/fgo/info/</loc>
     <lastmod>2017-07-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jkawamoto.github.io/fgo/tags/</loc>
     <priority>0</priority>
   </url>
   
