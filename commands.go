@@ -1,12 +1,12 @@
-//
-// commands.go
-//
-// Copyright (c) 2016-2017 Junpei Kawamoto
-//
-// This software is released under the MIT License.
-//
-// http://opensource.org/licenses/mit-license.php
-//
+/*
+ * commands.go
+ *
+ * Copyright (c) 2016-2018 Junpei Kawamoto
+ *
+ * This software is released under the MIT License.
+ *
+ * http://opensource.org/licenses/mit-license.php
+ */
 
 package main
 
@@ -64,7 +64,11 @@ release targets are necessary to run build command.`,
 		Flags: []cli.Flag{
 			cli.StringFlag{
 				Name:  "desc, d",
-				Usage: "Set `TEXT` to description section of the formula template",
+				Usage: "set description section of the formula template to `TEXT`",
+			},
+			cli.StringFlag{
+				Name:  "name",
+				Usage: "specify the package name (default name is the same as the repository name)",
 			},
 		},
 	},

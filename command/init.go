@@ -35,6 +35,8 @@ type InitOpt struct {
 	Repository string
 	// Description of the target application.
 	Description string
+	// Command name.
+	CmdName string
 }
 
 // Generator is an interface provides Generate method.
@@ -53,6 +55,7 @@ func CmdInit(c *cli.Context) error {
 		UserName:    c.Args().First(),
 		Repository:  c.Args().Get(1),
 		Description: c.String("desc"),
+		CmdName:     c.String("name"),
 	}
 	return cmdInit(&opt)
 
@@ -63,7 +66,7 @@ func cmdInit(opt *InitOpt) (err error) {
 
 	stdout := colorable.NewColorableStdout()
 
-	// Check user name.
+	// Check if a user name is given.
 	if opt.UserName == "" {
 		fmt.Fprintf(stdout, "Checking git configuration to get the user name: ")
 		opt.UserName, err = gitconfig.GithubUser()
@@ -74,7 +77,7 @@ func cmdInit(opt *InitOpt) (err error) {
 		fmt.Fprintln(stdout, chalk.Yellow.Color(opt.UserName))
 	}
 
-	// Prepare directories.
+	// Create directories if not exist.
 	fmt.Fprintf(stdout, "Preparing the directory to store a brew formula: ")
 	if err = prepareDirectory(opt.Directories.Homebrew); err != nil {
 		fmt.Fprintf(stdout, chalk.Red.Color("failed (%v)"), err.Error())
@@ -82,7 +85,7 @@ func cmdInit(opt *InitOpt) (err error) {
 	}
 	fmt.Fprintln(stdout, chalk.Green.Color("done"))
 
-	// Check Makefile doesn't exist and create it.
+	// Check if Makefile exists and create it if necessary.
 	actor := interact.NewActor(os.Stdin, stdout)
 
 	createMakefile := true
@@ -108,7 +111,7 @@ func cmdInit(opt *InitOpt) (err error) {
 		fmt.Fprintln(stdout, "Creating Makefile:", chalk.Yellow.Color("skipped"))
 	}
 
-	// Check brew rb file doesn't exist and create it.
+	// Check if a template of Homebrew configuration file exists and create it if necessary.
 	if opt.Repository == "" {
 		fmt.Fprintf(stdout, "Checking git configuration to get the repository name: ")
 		opt.Repository, err = gitconfig.Repository()
@@ -119,25 +122,29 @@ func cmdInit(opt *InitOpt) (err error) {
 		fmt.Fprintln(stdout, chalk.Yellow.Color(opt.Repository))
 	}
 	if opt.Repository != "" {
-		tmpfile := filepath.Join(opt.Directories.Homebrew, fmt.Sprintf("%s.rb.template", opt.Repository))
+
+		if opt.CmdName == "" {
+			opt.CmdName = opt.Repository
+		}
+		tmpFile := filepath.Join(opt.Directories.Homebrew, fmt.Sprintf("%s.rb.template", opt.CmdName))
 
 		createTemplate := true
-		if _, exist := os.Stat(tmpfile); exist == nil {
+		if _, exist := os.Stat(tmpFile); exist == nil {
 			createTemplate, err = actor.Confirm("brew formula template already exists. Would you like to overwrite it?", interact.ConfirmDefaultToNo)
 			if err != nil {
-				fmt.Fprintf(stdout, chalk.Red.Color("failed (%v)"), err.Error())
+				fmt.Fprintf(stdout, chalk.Red.Color("failed (%v)\n"), err.Error())
 				return cli.NewExitError("", 3)
 			}
 		}
 		if createTemplate {
 			fmt.Fprintf(stdout, "Creating brew formula template: ")
-			err = createResource(tmpfile, &fgo.FormulaTemplate{
+			err = createResource(tmpFile, &fgo.FormulaTemplate{
 				Package:     opt.Repository,
 				UserName:    opt.UserName,
 				Description: opt.Description,
 			})
 			if err != nil {
-				fmt.Fprintf(stdout, chalk.Yellow.Color("skipped (%s).\n"), err.Error())
+				fmt.Fprintf(stdout, chalk.Yellow.Color("skipped (%s)\n"), err.Error())
 			} else {
 				fmt.Fprintln(stdout, chalk.Green.Color("done"))
 			}
