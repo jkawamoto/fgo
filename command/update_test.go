@@ -28,12 +28,12 @@ func TestCmdUpdate(t *testing.T) {
 
 	pkgs, err := filepath.Glob(filepath.Join(TestPackageRoot, "*"))
 	if err != nil {
-		t.Fatal(err)
+		t.Fatal("faild to find test packages:", err)
 	}
 
 	dir, err := ioutil.TempDir("", "fgo")
 	if err != nil {
-		t.Fatal(err)
+		t.Fatal("faild to create a temporary directory:", err)
 	}
 	defer os.RemoveAll(dir)
 
