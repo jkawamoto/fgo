@@ -1,12 +1,12 @@
-//
-// command/init.go
-//
-// Copyright (c) 2016-2017 Junpei Kawamoto
-//
-// This software is released under the MIT License.
-//
-// http://opensource.org/licenses/mit-license.php
-//
+/*
+ * init.go
+ *
+ * Copyright (c) 2016-2018 Junpei Kawamoto
+ *
+ * This software is released under the MIT License.
+ *
+ * http://opensource.org/licenses/mit-license.php
+ */
 
 package command
 
@@ -27,8 +27,8 @@ import (
 
 // InitOpt defines options for cmdInit.
 type InitOpt struct {
-	// Configuration
-	Config Config
+	// Directory configurations.
+	Directories
 	// GitHub user name.
 	UserName string
 	// GitHub repository name.
@@ -37,8 +37,8 @@ type InitOpt struct {
 	Description string
 }
 
-// Generater is an interface provides Generate method.
-type Generater interface {
+// Generator is an interface provides Generate method.
+type Generator interface {
 	Generate() ([]byte, error)
 }
 
@@ -46,7 +46,7 @@ type Generater interface {
 func CmdInit(c *cli.Context) error {
 
 	opt := InitOpt{
-		Config: Config{
+		Directories: Directories{
 			Package:  c.GlobalString(PackageFlag),
 			Homebrew: c.GlobalString(HomebrewFlag),
 		},
@@ -76,7 +76,7 @@ func cmdInit(opt *InitOpt) (err error) {
 
 	// Prepare directories.
 	fmt.Fprintf(stdout, "Preparing the directory to store a brew formula: ")
-	if err = prepareDirectory(opt.Config.Homebrew); err != nil {
+	if err = prepareDirectory(opt.Directories.Homebrew); err != nil {
 		fmt.Fprintf(stdout, chalk.Red.Color("failed (%v)"), err.Error())
 		return cli.NewExitError("", 2)
 	}
@@ -96,7 +96,7 @@ func cmdInit(opt *InitOpt) (err error) {
 	if createMakefile {
 		fmt.Fprintf(stdout, "Creating Makefile: ")
 		err = createResource("Makefile", &fgo.Makefile{
-			Dest:     opt.Config.Package,
+			Dest:     opt.Directories.Package,
 			UserName: opt.UserName,
 		})
 		if err != nil {
@@ -119,7 +119,7 @@ func cmdInit(opt *InitOpt) (err error) {
 		fmt.Fprintln(stdout, chalk.Yellow.Color(opt.Repository))
 	}
 	if opt.Repository != "" {
-		tmpfile := filepath.Join(opt.Config.Homebrew, fmt.Sprintf("%s.rb.template", opt.Repository))
+		tmpfile := filepath.Join(opt.Directories.Homebrew, fmt.Sprintf("%s.rb.template", opt.Repository))
 
 		createTemplate := true
 		if _, exist := os.Stat(tmpfile); exist == nil {
@@ -164,7 +164,7 @@ func prepareDirectory(path string) error {
 
 // createResource creates a resource from a given generator and stores it to
 // a given path.
-func createResource(path string, data Generater) (err error) {
+func createResource(path string, data Generator) (err error) {
 
 	buf, err := data.Generate()
 	if err != nil {

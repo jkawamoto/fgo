@@ -1,12 +1,12 @@
-//
-// command/init_test.go
-//
-// Copyright (c) 2016-2017 Junpei Kawamoto
-//
-// This software is released under the MIT License.
-//
-// http://opensource.org/licenses/mit-license.php
-//
+/*
+ * init_test.go
+ *
+ * Copyright (c) 2016-2018 Junpei Kawamoto
+ *
+ * This software is released under the MIT License.
+ *
+ * http://opensource.org/licenses/mit-license.php
+ */
 
 package command
 
@@ -21,7 +21,7 @@ import (
 func TestCmdInit(t *testing.T) {
 
 	// Move temporary directory.
-	cd, temp, err := _moveToTempDir(".", "test-cmd-init")
+	cd, temp, err := moveToTempDir(".", "test-cmd-init")
 	if err != nil {
 		t.Error(err.Error())
 		return
@@ -32,7 +32,7 @@ func TestCmdInit(t *testing.T) {
 
 	// Test w/ username.
 	opt := InitOpt{
-		Config: Config{
+		Directories: Directories{
 			Package:  "test-package",
 			Homebrew: "test-homebrew",
 		},
@@ -70,7 +70,7 @@ func TestCmdInit(t *testing.T) {
 
 	// Test w/ description.
 	opt = InitOpt{
-		Config: Config{
+		Directories: Directories{
 			Package:  "test-package",
 			Homebrew: "test-homebrew",
 		},
@@ -97,7 +97,7 @@ func TestCmdInit(t *testing.T) {
 	if os.Getenv("LOCAL") == "true" {
 
 		opt = InitOpt{
-			Config: Config{
+			Directories: Directories{
 				Package:  "test-package",
 				Homebrew: "test-homebrew",
 			},
@@ -126,7 +126,7 @@ func TestPrepareDirectory(t *testing.T) {
 	var err error
 
 	// Move temporary directory.
-	cd, temp, err := _moveToTempDir("", "test-prepare-directory")
+	cd, temp, err := moveToTempDir("", "test-prepare-directory")
 	if err != nil {
 		t.Error(err.Error())
 		return
@@ -170,7 +170,7 @@ func TestPrepareDirectory(t *testing.T) {
 
 }
 
-func _moveToTempDir(dir, prefix string) (cd, temp string, err error) {
+func moveToTempDir(dir, prefix string) (cd, temp string, err error) {
 
 	// Prepare test directory.
 	cd, err = os.Getwd()

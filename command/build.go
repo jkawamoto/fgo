@@ -1,12 +1,12 @@
-//
-// command/build.go
-//
-// Copyright (c) 2016-2017 Junpei Kawamoto
-//
-// This software is released under the MIT License.
-//
-// http://opensource.org/licenses/mit-license.php
-//
+/*
+ * build.go
+ *
+ * Copyright (c) 2016-2018 Junpei Kawamoto
+ *
+ * This software is released under the MIT License.
+ *
+ * http://opensource.org/licenses/mit-license.php
+ */
 
 package command
 
@@ -23,8 +23,8 @@ import (
 
 // BuildOpt defines options for cmdInit.
 type BuildOpt struct {
-	// Configuration
-	Config Config
+	// Directory configurations.
+	Directories
 	// Version string.
 	Version string
 	// Options for ghr command.
@@ -79,7 +79,7 @@ func (o *ghrOpt) String() string {
 func CmdBuild(c *cli.Context) error {
 
 	opt := BuildOpt{
-		Config: Config{
+		Directories: Directories{
 			Package:  c.GlobalString(PackageFlag),
 			Homebrew: c.GlobalString(HomebrewFlag),
 		},
@@ -136,6 +136,6 @@ func cmdBuild(opt *BuildOpt) (err error) {
 		return
 	}
 
-	return cmdUpdate(opt.Config.Package, opt.Config.Homebrew, opt.Version)
+	return cmdUpdate(opt.Directories.Package, opt.Directories.Homebrew, opt.Version)
 
 }
