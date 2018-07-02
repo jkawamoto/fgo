@@ -1,12 +1,12 @@
-//
-// command/update_test.go
-//
-// Copyright (c) 2016-2017 Junpei Kawamoto
-//
-// This software is released under the MIT License.
-//
-// http://opensource.org/licenses/mit-license.php
-//
+/*
+ * update_test.go
+ *
+ * Copyright (c) 2016-2018 Junpei Kawamoto
+ *
+ * This software is released under the MIT License.
+ *
+ * http://opensource.org/licenses/mit-license.php
+ */
 
 package command
 
@@ -28,18 +28,18 @@ func TestCmdUpdate(t *testing.T) {
 
 	pkgs, err := filepath.Glob(filepath.Join(TestPackageRoot, "*"))
 	if err != nil {
-		t.Fatal(err)
+		t.Fatal("faild to find test packages:", err)
 	}
 
 	dir, err := ioutil.TempDir("", "fgo")
 	if err != nil {
-		t.Fatal(err)
+		t.Fatal("faild to create a temporary directory:", err)
 	}
 	defer os.RemoveAll(dir)
 
 	temp := fgo.FormulaTemplate{
 		Package:  "fgo",
-		UserName: "testuser",
+		UserName: "test-user",
 	}
 	data, err := temp.Generate()
 	if err != nil {
