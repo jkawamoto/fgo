@@ -1,12 +1,12 @@
-//
-// fgo/util.go
-//
-// Copyright (c) 2016-2017 Junpei Kawamoto
-//
-// This software is released under the MIT License.
-//
-// http://opensource.org/licenses/mit-license.php
-//
+/*
+ * util.go
+ *
+ * Copyright (c) 2016-2018 Junpei Kawamoto
+ *
+ * This software is released under the MIT License.
+ *
+ * http://opensource.org/licenses/mit-license.php
+ */
 
 package fgo
 
@@ -84,8 +84,8 @@ func Sha256(path string) (res string, err error) {
 		return
 	}
 
-	bytes := sha256.Sum256(data)
-	res = hex.EncodeToString(bytes[:])
+	raw := sha256.Sum256(data)
+	res = hex.EncodeToString(raw[:])
 	return
 
 }

@@ -1,12 +1,12 @@
-//
-// fgo/makefile.go
-//
-// Copyright (c) 2016-2017 Junpei Kawamoto
-//
-// This software is released under the MIT License.
-//
-// http://opensource.org/licenses/mit-license.php
-//
+/*
+ * makefile.go
+ *
+ * Copyright (c) 2016-2018 Junpei Kawamoto
+ *
+ * This software is released under the MIT License.
+ *
+ * http://opensource.org/licenses/mit-license.php
+ */
 
 package fgo
 
@@ -15,7 +15,7 @@ const MakefileAsset = "assets/Makefile"
 
 // Makefile defines variables to generate a Makefile.
 type Makefile struct {
-	// Directory to store package files
+	// Directory which will store package files
 	Dest string
 	// GitHub user name.
 	UserName string
