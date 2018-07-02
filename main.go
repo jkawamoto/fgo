@@ -13,6 +13,7 @@ package main
 import (
 	"os"
 
+	"github.com/mattn/go-colorable"
 	"github.com/urfave/cli"
 )
 
@@ -29,6 +30,8 @@ func main() {
 	app.Commands = Commands
 	app.CommandNotFound = CommandNotFound
 	app.EnableBashCompletion = true
+	app.Writer = colorable.NewColorableStdout()
+	app.ErrWriter = colorable.NewColorableStderr()
 	app.Copyright = `This software is released under the MIT License.
    See https://jkawamoto.github.io/fgo/info/licenses/ for more information.`
 

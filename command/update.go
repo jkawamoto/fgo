@@ -16,6 +16,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"io"
+
 	"github.com/jkawamoto/fgo/fgo"
 	"github.com/mattn/go-colorable"
 	"github.com/ttacon/chalk"
@@ -34,9 +36,8 @@ func CmdUpdate(c *cli.Context) error {
 	pkg := c.GlobalString(PackageFlag)
 	brew := c.GlobalString(HomebrewFlag)
 
-	if err := cmdUpdate(pkg, brew, c.Args().First()); err != nil {
-		fmt.Fprintln(stderr, err)
-		return cli.NewExitError("", 10)
+	if err := cmdUpdate(pkg, brew, c.Args().First(), c.App.Writer); err != nil {
+		return cli.NewExitError(err.Error(), 10)
 	}
 	return nil
 }
@@ -44,9 +45,7 @@ func CmdUpdate(c *cli.Context) error {
 // cmdUpdate retrieves archives of the specified version in the given directory
 // pkg, and updates the brew formula in the given path brew.
 // If version is empty, "snapshot" will be used instead.
-func cmdUpdate(pkg, brew, version string) (err error) {
-
-	stdout := colorable.NewColorableStdout()
+func cmdUpdate(pkg, brew, version string, stdout io.Writer) (err error) {
 
 	fmt.Fprintln(stdout, chalk.Bold.TextStyle("Updating brew formula."))
 	if version == "" {

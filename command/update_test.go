@@ -55,7 +55,7 @@ func TestCmdUpdate(t *testing.T) {
 		sp := strings.Split(pkg, "/")
 		version := sp[len(sp)-1]
 
-		err = cmdUpdate(TestPackageRoot, dir, version)
+		err = cmdUpdate(TestPackageRoot, dir, version, ioutil.Discard)
 		if err != nil {
 			t.Error(err)
 		}

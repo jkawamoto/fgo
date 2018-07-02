@@ -15,8 +15,9 @@ import (
 	"os/exec"
 	"strings"
 
+	"io"
+
 	"github.com/jkawamoto/fgo/fgo"
-	colorable "github.com/mattn/go-colorable"
 	"github.com/ttacon/chalk"
 	"github.com/urfave/cli"
 )
@@ -29,6 +30,10 @@ type BuildOpt struct {
 	Version string
 	// Options for ghr command.
 	GHROpt ghrOpt
+	// Writer to output messages
+	Stdout io.Writer
+	// Writer to output error messages
+	Stderr io.Writer
 }
 
 // ghrOpt defines options for ghr command.
@@ -92,10 +97,12 @@ func CmdBuild(c *cli.Context) error {
 			Draft:   c.Bool("draft"),
 			Pre:     c.Bool("pre"),
 		},
+		Stdout: c.App.Writer,
+		Stderr: c.App.ErrWriter,
 	}
 
 	if err := cmdBuild(&opt); err != nil {
-		return cli.NewExitError(err.Error(), 1)
+		return cli.NewExitError(err, 1)
 	}
 	return nil
 
@@ -103,11 +110,8 @@ func CmdBuild(c *cli.Context) error {
 
 func cmdBuild(opt *BuildOpt) (err error) {
 
-	stdout := colorable.NewColorableStdout()
-	stderr := colorable.NewColorableStderr()
-
 	// Build and upload via make.
-	fmt.Fprintln(stdout, chalk.Bold.TextStyle("Building binaries."))
+	fmt.Fprintln(opt.Stdout, chalk.Bold.TextStyle("Building binaries."))
 
 	var cmd *exec.Cmd
 	if opt.Version != "" {
@@ -129,13 +133,13 @@ func cmdBuild(opt *BuildOpt) (err error) {
 		fmt.Println("Version is not given, set `snapshot`")
 		cmd = exec.Command("make", "build")
 	}
-	cmd.Stdout = stdout
-	cmd.Stderr = stderr
+	cmd.Stdout = opt.Stdout
+	cmd.Stderr = opt.Stderr
 
 	if err = cmd.Run(); err != nil {
 		return
 	}
 
-	return cmdUpdate(opt.Directories.Package, opt.Directories.Homebrew, opt.Version)
+	return cmdUpdate(opt.Directories.Package, opt.Directories.Homebrew, opt.Version, opt.Stdout)
 
 }

@@ -37,6 +37,7 @@ func TestCmdInit(t *testing.T) {
 				Homebrew: "test-homebrew",
 			},
 			UserName: "test-name",
+			Stdout:   ioutil.Discard,
 		}
 		if err = cmdInit(&opt); err != nil {
 			t.Fatal("cmdInit returned an error:", err)
@@ -79,6 +80,7 @@ func TestCmdInit(t *testing.T) {
 			},
 			UserName:    "test-name",
 			Description: "sample description",
+			Stdout:      ioutil.Discard,
 		}
 		if err = cmdInit(&opt); err != nil {
 			t.Fatal("cmdInit returned an error:", err)
@@ -108,6 +110,7 @@ func TestCmdInit(t *testing.T) {
 			},
 			UserName: "test-name",
 			CmdName:  cmdName,
+			Stdout:   ioutil.Discard,
 		}
 		if err = cmdInit(&opt); err != nil {
 			t.Fatal("cmdInit returned an error:", err)
@@ -132,6 +135,7 @@ func TestCmdInit(t *testing.T) {
 				Package:  "test-package",
 				Homebrew: "test-homebrew",
 			},
+			Stdout: ioutil.Discard,
 		}
 		if err = cmdInit(&opt); err != nil {
 			t.Fatal("cmdInit returned an error:", err)
