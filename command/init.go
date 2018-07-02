@@ -126,7 +126,7 @@ func cmdInit(opt *InitOpt) (err error) {
 		if opt.CmdName == "" {
 			opt.CmdName = opt.Repository
 		}
-		tmpFile := filepath.Join(opt.Directories.Homebrew, fmt.Sprintf("%s.rb.template", opt.CmdName))
+		tmpFile := filepath.Join(opt.Directories.Homebrew, opt.CmdName+BrewFormulaSuffix)
 
 		createTemplate := true
 		if _, exist := os.Stat(tmpFile); exist == nil {
