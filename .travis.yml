@@ -1,7 +1,50 @@
+#
+# Copyright (c) 2018 Junpei Kawamoto
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
 language: go
 go:
-- tip
+  - "1.10"
+env:
+  secure: eWNaPQ9r6CainVqETlfVdppt/vPsSsM/fT58FugQ4TEM6BV2kkz1zLdVsoYkirAjKJmGhWfquKaWT5uBpQ9141VCpFm69IAB/0LT0OsHWP7Ksf65Uu1NsuygqLf5fvbLit/dyHocp7u4RB4zd3zLFnjtYgvVMRMYkZUqcvq9/+JOH8XN32up3h2o/LIefa2QSTLgPrti+c1GjNQiWWOY5x+n3PXCLrdRRt5FtyDDTKh/IlIRSoQWWxrQeAh3O5JtEJoXXkrPdga7fbjjgayiSbTTwimasLOdTrM6Kl7odRxntMn2vpUt2Zsm8uUofgltd828r+U7fQ0LgMNuK+9KzIVptfYFTr71zY7IclTXtnfNlkryFky2oh5aLSuoE6gBy71exwWyHmZV3FrbiUkdgz4FySImL8eXwMd8RNlvO9DcUD8/Z+T8NFrbBUBLN3qbbBoWfAhIjhZnkAp6wA6zILyGDZvBoAPlDnM0TUGBqxAYE1bLXsX1WBbtQbyozHcKY9IAAXUHNY6ThmG+5l0CotqPACVwOnG32gDXUx1K4cMFAtfSGJc7TlGsyNig8GipfyjXqD2kSqI1NjI1G5o8MUs9Jc66CdjI7fXl7iHTh235Z8QUcgBL3DaMqsTqZZm3USIaI2rK6Hbqiif10hOd2j8nzQjUENu3nMpvQQ8pj+o=
+before_install:
+  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 install:
-- make get-deps
+  - go get -u github.com/jteeuwen/go-bindata/...
+  - dep ensure
 script:
-- make test
+  - go test -v ./...
+before_deploy:
+  - go get github.com/laher/goxc
+  - go get github.com/tcnksm/ghr
+  - go get github.com/jkawamoto/fgo
+  - cd homebrew; git checkout master; cd -
+deploy:
+  provider: script
+  script: fgo build $TRAVIS_TAG
+  skip_cleanup: true
+  on:
+    tags: true
+after_deploy:
+  - cd homebrew; git commit -a -m "$TRAVIS_TAG" && git push --quiet "https://${GITHUB_TOKEN}@github.com/jkawamoto/homebrew-fgo.git" master >/dev/null 2>&1
+notifications:
+  slack:
+    rooms:
+      secure: CRdfPgNgLWKDyXH9elz3ePM2l2VPJOuOO2bCklEIPl5SwOp0lKBJlHb3LjqVQ7mVL5lft7zZP9rVwKed+QffsBlRjQMdhp5Wedvl6QoT+Zc88O/909PcoE2feUjig1XNfLFaJMwHu4O2eTsE3/8NsMHEDuQGwdLJpv9iDjLRPihvZ37H2hmhpeu4iaVAzUxcKBDtA5l7exwxeXAzenFvh4+S0ibYqIxpEjArluUZqxZ6eaih/r+wb37aMVLhdz5xIlHdTSh7sgkecbnEflmBL4bPKrNSJ5Ky8pjWMOIbrtsKeACwwl+WDAHZR4L42w6nVqwOX4a0FtOzTQTrHzJwehQxMIqdCoiMiBZk+Y2HnAniqBx01e4vcdskXW+hw9El8plNdM5Wyfd1pY6CpoCk9/gkFURMhqYc/MjV8bFkuxqyzgyTP5Wsz16zYnmWhBiQ11BS4SlFJSM5iCV2hOOZylCEPjYXIDzRM4WUF4xRk33TCGsnHduIsz7HK2aGpLuHJ9fRZeqKuyRmwkmrxb7Abb5Hx8L9Ji7bw6qbef8n59Rv+FwaTV68R/yQEVSH6iRWskINV/3Uk3KkPpvw8ANkXwjrnOJQ5lwEIBSYJ0LgZR0bxkzzrFOWGceoLOardpRc2mCzh7Pentoj44E/oESW2PgWwLTUQcpGm8H7iq9v1+Y=
