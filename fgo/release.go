@@ -1,12 +1,12 @@
-//
-// fgo/release.go
-//
-// Copyright (c) 2016-2017 Junpei Kawamoto
-//
-// This software is released under the MIT License.
-//
-// http://opensource.org/licenses/mit-license.php
-//
+/*
+ * release.go
+ *
+ * Copyright (c) 2016-2018 Junpei Kawamoto
+ *
+ * This software is released under the MIT License.
+ *
+ * http://opensource.org/licenses/mit-license.php
+ */
 
 package fgo
 
@@ -50,7 +50,7 @@ func ReleaseNote(filename, version string) (note string, err error) {
 	}
 
 	note = strings.Replace(
-		string(blackfriday.MarkdownCommon([]byte(strings.Join(body, "\n")))),
+		string(blackfriday.Run([]byte(strings.Join(body, "\n")))),
 		"\n", "", -1)
 	return
 

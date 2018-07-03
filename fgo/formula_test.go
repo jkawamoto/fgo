@@ -1,12 +1,12 @@
-//
-// fgo/formula_test.go
-//
-// Copyright (c) 2016-2017 Junpei Kawamoto
-//
-// This software is released under the MIT License.
-//
-// http://opensource.org/licenses/mit-license.php
-//
+/*
+ * formula_test.go
+ *
+ * Copyright (c) 2016-2018 Junpei Kawamoto
+ *
+ * This software is released under the MIT License.
+ *
+ * http://opensource.org/licenses/mit-license.php
+ */
 
 package fgo
 
@@ -28,8 +28,7 @@ func TestFormulaTemplate(t *testing.T) {
 
 	data, err := param.Generate()
 	if err != nil {
-		t.Error(err.Error())
-		return
+		t.Fatal("Generate returned an error:", err)
 	}
 
 	res := string(data)
@@ -56,18 +55,18 @@ func TestFormula(t *testing.T) {
 	}
 	data, err := packageInfo.Generate()
 	if err != nil {
-		t.Fatal(err)
+		t.Fatal("Generate returned an error:", err)
 	}
 
 	fp, err := ioutil.TempFile("", "test-formula")
 	if err != nil {
-		t.Fatal(err)
+		t.Fatal("failed to create a temporary file:", err)
 	}
 	defer os.Remove(fp.Name())
 
 	_, err = fp.Write(data)
 	if err != nil {
-		t.Fatal(err)
+		t.Fatal("failed to write a brew formula:", err)
 	}
 	fp.Close()
 
@@ -92,17 +91,17 @@ func TestFormula(t *testing.T) {
 	}
 	data, err = args.Generate(fp.Name())
 	if err != nil {
-		t.Error(err)
+		t.Fatal("Generate returned an error:", err)
 	}
 
 	res := string(data)
-	for _, os := range []string{"mac", "linux"} {
+	for _, osType := range []string{"mac", "linux"} {
 		for _, arch := range []string{"64", "386"} {
-			if !strings.Contains(res, fmt.Sprintf("vtest.version/testname.%v.%v", os, arch)) {
-				t.Errorf("URL for %v-%v is wrong: %v", os, arch, res)
+			if !strings.Contains(res, fmt.Sprintf("vtest.version/testname.%v.%v", osType, arch)) {
+				t.Errorf("URL for %v-%v is wrong: %v", osType, arch, res)
 			}
-			if !strings.Contains(res, fmt.Sprintf(`sha256 "testhash.%v.%v"`, os, arch)) {
-				t.Errorf("Hash value for %v-%v is wrong: %v", os, arch, res)
+			if !strings.Contains(res, fmt.Sprintf(`sha256 "testhash.%v.%v"`, osType, arch)) {
+				t.Errorf("Hash value for %v-%v is wrong: %v", osType, arch, res)
 			}
 		}
 	}

@@ -1,12 +1,12 @@
-//
-// fgo/makefile_test.go
-//
-// Copyright (c) 2016-2017 Junpei Kawamoto
-//
-// This software is released under the MIT License.
-//
-// http://opensource.org/licenses/mit-license.php
-//
+/*
+ * makefile_test.go
+ *
+ * Copyright (c) 2016-2018 Junpei Kawamoto
+ *
+ * This software is released under the MIT License.
+ *
+ * http://opensource.org/licenses/mit-license.php
+ */
 
 package fgo
 
@@ -24,8 +24,7 @@ func TestMakefile(t *testing.T) {
 
 	data, err := param.Generate()
 	if err != nil {
-		t.Error(err.Error())
-		return
+		t.Fatal("Generate returned an error:", err)
 	}
 
 	if !strings.Contains(string(data), "-d=test") {

@@ -1,12 +1,12 @@
-//
-// command/update.go
-//
-// Copyright (c) 2016-2017 Junpei Kawamoto
-//
-// This software is released under the MIT License.
-//
-// http://opensource.org/licenses/mit-license.php
-//
+/*
+ * update.go
+ *
+ * Copyright (c) 2016-2018 Junpei Kawamoto
+ *
+ * This software is released under the MIT License.
+ *
+ * http://opensource.org/licenses/mit-license.php
+ */
 
 package command
 
@@ -16,9 +16,10 @@ import (
 	"path/filepath"
 	"strings"
 
+	"io"
+
 	"github.com/jkawamoto/fgo/fgo"
-	colorable "github.com/mattn/go-colorable"
-	"github.com/tcnksm/go-gitconfig"
+	"github.com/mattn/go-colorable"
 	"github.com/ttacon/chalk"
 	"github.com/urfave/cli"
 )
@@ -35,28 +36,22 @@ func CmdUpdate(c *cli.Context) error {
 	pkg := c.GlobalString(PackageFlag)
 	brew := c.GlobalString(HomebrewFlag)
 
-	if err := cmdUpdate(pkg, brew, c.Args().First()); err != nil {
-		fmt.Fprint(stderr, err.Error())
-		return cli.NewExitError("", 10)
+	if err := cmdUpdate(pkg, brew, c.Args().First(), c.App.Writer); err != nil {
+		return cli.NewExitError(err.Error(), 10)
 	}
 	return nil
 }
 
-// cmdUpdate retrives archives of the specified version in the given directory
+// cmdUpdate retrieves archives of the specified version in the given directory
 // pkg, and updates the brew formula in the given path brew.
 // If version is empty, "snapshot" will be used instead.
-func cmdUpdate(pkg, brew, version string) (err error) {
-
-	stdout := colorable.NewColorableStdout()
+func cmdUpdate(pkg, brew, version string, stdout io.Writer) (err error) {
 
 	fmt.Fprintln(stdout, chalk.Bold.TextStyle("Updating brew formula."))
-	repo, err := gitconfig.Repository()
-	if err != nil {
-		return
-	}
-
 	if version == "" {
-		version = "snapshot"
+		version = SnapshotVersion
+	} else {
+		version = strings.TrimSuffix(version, "v")
 	}
 
 	param := fgo.Formula{
@@ -115,10 +110,19 @@ func cmdUpdate(pkg, brew, version string) (err error) {
 		return fmt.Errorf(chalk.Red.Color("Binary files are not found. Run build command instead"))
 	}
 
-	data, err := param.Generate(filepath.Join(brew, fmt.Sprintf("%s.rb.template", repo)))
+	matches, err = filepath.Glob(filepath.Join(brew, "*"+BrewFormulaSuffix))
 	if err != nil {
 		return
 	}
-	return ioutil.WriteFile(filepath.Join(brew, fmt.Sprintf("%s.rb", repo)), data, 0644)
+	if len(matches) == 0 {
+		return fmt.Errorf("no brew formula template exists")
+	}
+
+	data, err := param.Generate(matches[0])
+	if err != nil {
+		return
+	}
+
+	return ioutil.WriteFile(strings.TrimSuffix(matches[0], TemplateSuffix), data, 0644)
 
 }

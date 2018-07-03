@@ -1,3 +1,6 @@
 [submodule "docs/themes/github-project-landing-page"]
 	path = docs/themes/github-project-landing-page
 	url = https://github.com/jkawamoto/github-project-landing-page.git
+[submodule "homebrew"]
+	path = homebrew
+	url = https://github.com/jkawamoto/homebrew-fgo.git

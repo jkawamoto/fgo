@@ -1,3 +1,9 @@
+## 0.3.2 (2018-07-02)
+### Update 
+- Users can specify the command name instead of the repository name
+- Support to deploy on Travis CI (Fixes #8)
+
+
 ## 0.3.1 (2017-07-07)
 ### Update
 - `init` command takes `--desc` flag to specify description in brew formulae
