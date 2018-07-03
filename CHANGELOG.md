@@ -1,3 +1,8 @@
+## 0.3.3 (2018-07-02)
+### Fixed
+- Version numbers in the download links
+
+
 ## 0.3.2 (2018-07-02)
 ### Update 
 - Users can specify the command name instead of the repository name
