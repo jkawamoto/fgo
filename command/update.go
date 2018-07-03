@@ -50,12 +50,10 @@ func cmdUpdate(pkg, brew, version string, stdout io.Writer) (err error) {
 	fmt.Fprintln(stdout, chalk.Bold.TextStyle("Updating brew formula."))
 	if version == "" {
 		version = SnapshotVersion
-	} else {
-		version = strings.TrimSuffix(version, "v")
 	}
 
 	param := fgo.Formula{
-		Version: version,
+		Version: strings.TrimPrefix(version, "v"),
 	}
 
 	var matches []string
