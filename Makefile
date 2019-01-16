@@ -1,7 +1,7 @@
 #
 # Makefile
 #
-# Copyright (c) 2016-2018 Junpei Kawamoto
+# Copyright (c) 2016-2019 Junpei Kawamoto
 #
 # This software is released under the MIT License.
 #
@@ -9,22 +9,23 @@
 #
 VERSION = snapshot
 GHRFLAGS =
-.PHONY: asset build release get-deps test
+.PHONY: assets build release get-deps test
 
 default: build
 
-asset:
-	go-bindata -pkg fgo -o fgo/assets.go -nometadata assets
+fgo/assets/bindata.go:
+	go generate fgo/assets.go
 
-build: asset
+
+build: fgo/assets/bindata.go
 	goxc -d=pkg -pv=$(VERSION) -os="darwin linux"
 
 release:
 	ghr -u jkawamoto $(GHRFLAGS) $(VERSION) pkg/$(VERSION)
 
 get-deps:
-	go get -u github.com/jteeuwen/go-bindata/...
+	go get -u github.com/jessevdk/go-assets-builder
 	go get -d -t -v .
 
-test: asset
+test: fgo/assets/bindata.go
 	go test -v ./...

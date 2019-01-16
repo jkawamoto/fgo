@@ -70,19 +70,24 @@ func cmdInit(opt *InitOpt) (err error) {
 
 	// Check if a user name is given.
 	if opt.UserName == "" {
+		//noinspection GoUnhandledErrorResult
 		fmt.Fprintf(opt.Stdout, "Checking git configuration to get the user name: ")
 		opt.UserName, err = gitconfig.GithubUser()
 		if err != nil {
 			return cli.NewExitError(fmt.Sprintf(chalk.Red.Color("Cannot find user name (%v)"), err), 1)
 		}
+		//noinspection GoUnhandledErrorResult
 		fmt.Fprintln(opt.Stdout, chalk.Yellow.Color(opt.UserName))
 	}
 
 	// Create directories if not exist.
+
+	//noinspection GoUnhandledErrorResult
 	fmt.Fprintf(opt.Stdout, "Preparing the directory to store a brew formula: ")
 	if err = prepareDirectory(opt.Directories.Homebrew); err != nil {
 		return cli.NewExitError(fmt.Sprintf(chalk.Red.Color("failed (%v)"), err), 2)
 	}
+	//noinspection GoUnhandledErrorResult
 	fmt.Fprintln(opt.Stdout, chalk.Green.Color("done"))
 
 	// Check if Makefile exists and create it if necessary.
@@ -96,28 +101,36 @@ func cmdInit(opt *InitOpt) (err error) {
 		}
 	}
 	if createMakefile {
+		//noinspection GoUnhandledErrorResult
 		fmt.Fprintf(opt.Stdout, "Creating Makefile: ")
 		err = createResource("Makefile", &fgo.Makefile{
 			Dest:     opt.Directories.Package,
 			UserName: opt.UserName,
 		})
 		if err != nil {
+			//noinspection GoUnhandledErrorResult
 			fmt.Fprintf(opt.Stdout, chalk.Yellow.Color("skipped (%s)\n"), err)
 		} else {
+			//noinspection GoUnhandledErrorResult
 			fmt.Fprintln(opt.Stdout, chalk.Green.Color("done"))
 		}
 	} else {
+		//noinspection GoUnhandledErrorResult
 		fmt.Fprintln(opt.Stdout, "Creating Makefile:", chalk.Yellow.Color("skipped"))
 	}
 
 	// Check if a template of Homebrew configuration file exists and create it if necessary.
 	if opt.Repository == "" {
+		//noinspection GoUnhandledErrorResult
 		fmt.Fprintf(opt.Stdout, "Checking git configuration to get the repository name: ")
 		opt.Repository, err = gitconfig.Repository()
 		if err != nil {
+			//noinspection GoUnhandledErrorResult
 			fmt.Fprintf(opt.Stdout, chalk.Red.Color("skipped (%s).\n"), err)
+			//noinspection GoUnhandledErrorResult
 			fmt.Fprintln(opt.Stdout, chalk.Yellow.Color("You must re-run init command after setting a remote repository"))
 		}
+		//noinspection GoUnhandledErrorResult
 		fmt.Fprintln(opt.Stdout, chalk.Yellow.Color(opt.Repository))
 	}
 	if opt.Repository != "" {
@@ -135,6 +148,7 @@ func cmdInit(opt *InitOpt) (err error) {
 			}
 		}
 		if createTemplate {
+			//noinspection GoUnhandledErrorResult
 			fmt.Fprintf(opt.Stdout, "Creating brew formula template: ")
 			err = createResource(tmpFile, &fgo.FormulaTemplate{
 				Package:     opt.Repository,
@@ -142,11 +156,14 @@ func cmdInit(opt *InitOpt) (err error) {
 				Description: opt.Description,
 			})
 			if err != nil {
+				//noinspection GoUnhandledErrorResult
 				fmt.Fprintf(opt.Stdout, chalk.Yellow.Color("skipped (%s)\n"), err)
 			} else {
+				//noinspection GoUnhandledErrorResult
 				fmt.Fprintln(opt.Stdout, chalk.Green.Color("done"))
 			}
 		} else {
+			//noinspection GoUnhandledErrorResult
 			fmt.Fprintln(opt.Stdout, "Creating brew formula template:", chalk.Yellow.Color("skipped"))
 		}
 	}

@@ -1,7 +1,7 @@
 /*
  * util.go
  *
- * Copyright (c) 2016-2018 Junpei Kawamoto
+ * Copyright (c) 2016-2019 Junpei Kawamoto
  *
  * This software is released under the MIT License.
  *
@@ -14,6 +14,7 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
+	"github.com/jkawamoto/fgo/fgo/assets"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -22,7 +23,12 @@ import (
 
 func generateFromAsset(assetName string, param interface{}) (res []byte, err error) {
 
-	data, err := Asset(assetName)
+	fp, err := assets.Assets.Open(assetName)
+	if err != nil {
+		return
+	}
+
+	data, err := ioutil.ReadAll(fp)
 	if err != nil {
 		return
 	}

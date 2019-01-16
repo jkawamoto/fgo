@@ -29,6 +29,7 @@ func CmdUpdate(c *cli.Context) error {
 	stderr := colorable.NewColorableStderr()
 
 	if c.NArg() != 1 {
+		//noinspection GoUnhandledErrorResult
 		fmt.Fprintf(stderr, chalk.Red.Color("expected one argument. (%d given)\n"), c.NArg())
 		return cli.ShowSubcommandHelp(c)
 	}
@@ -47,6 +48,7 @@ func CmdUpdate(c *cli.Context) error {
 // If version is empty, "snapshot" will be used instead.
 func cmdUpdate(pkg, brew, version string, stdout io.Writer) (err error) {
 
+	//noinspection GoUnhandledErrorResult
 	fmt.Fprintln(stdout, chalk.Bold.TextStyle("Updating brew formula."))
 	if version == "" {
 		version = SnapshotVersion

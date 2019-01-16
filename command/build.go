@@ -1,7 +1,7 @@
 /*
  * build.go
  *
- * Copyright (c) 2016-2018 Junpei Kawamoto
+ * Copyright (c) 2016-2019 Junpei Kawamoto
  *
  * This software is released under the MIT License.
  *
@@ -111,6 +111,8 @@ func CmdBuild(c *cli.Context) error {
 func cmdBuild(opt *BuildOpt) (err error) {
 
 	// Build and upload via make.
+
+	//noinspection GoUnhandledErrorResult
 	fmt.Fprintln(opt.Stdout, chalk.Bold.TextStyle("Building binaries."))
 
 	var cmd *exec.Cmd
@@ -126,9 +128,9 @@ func cmdBuild(opt *BuildOpt) (err error) {
 			}
 		}
 
-		ghrflags := fmt.Sprintf(`GHRFLAGS=%v`, opt.GHROpt.String())
-		fmt.Println(ghrflags)
-		cmd = exec.Command("make", "build", "release", fmt.Sprintf("VERSION=%s", opt.Version), ghrflags)
+		ghrFlags := fmt.Sprintf(`GHRFLAGS=%v`, opt.GHROpt.String())
+		fmt.Println(ghrFlags)
+		cmd = exec.Command("make", "build", "release", fmt.Sprintf("VERSION=%s", opt.Version), ghrFlags)
 	} else {
 		fmt.Println("Version is not given, set `snapshot`")
 		cmd = exec.Command("make", "build")

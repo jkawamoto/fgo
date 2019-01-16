@@ -11,7 +11,7 @@
 package fgo
 
 // FormulaTemplateAsset defines the asset name of a formula template.
-const FormulaTemplateAsset = "assets/formula.rb"
+const FormulaTemplateAsset = "/formula.rb"
 
 // FormulaTemplate defines variables to generate a template of
 // a homebrew formula.
