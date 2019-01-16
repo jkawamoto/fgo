@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2018 Junpei Kawamoto
+# Copyright (c) 2018-2019 Junpei Kawamoto
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,16 +21,15 @@
 #
 language: go
 go:
-  - "1.10"
+  - "1.11.4"
 env:
   secure: eWNaPQ9r6CainVqETlfVdppt/vPsSsM/fT58FugQ4TEM6BV2kkz1zLdVsoYkirAjKJmGhWfquKaWT5uBpQ9141VCpFm69IAB/0LT0OsHWP7Ksf65Uu1NsuygqLf5fvbLit/dyHocp7u4RB4zd3zLFnjtYgvVMRMYkZUqcvq9/+JOH8XN32up3h2o/LIefa2QSTLgPrti+c1GjNQiWWOY5x+n3PXCLrdRRt5FtyDDTKh/IlIRSoQWWxrQeAh3O5JtEJoXXkrPdga7fbjjgayiSbTTwimasLOdTrM6Kl7odRxntMn2vpUt2Zsm8uUofgltd828r+U7fQ0LgMNuK+9KzIVptfYFTr71zY7IclTXtnfNlkryFky2oh5aLSuoE6gBy71exwWyHmZV3FrbiUkdgz4FySImL8eXwMd8RNlvO9DcUD8/Z+T8NFrbBUBLN3qbbBoWfAhIjhZnkAp6wA6zILyGDZvBoAPlDnM0TUGBqxAYE1bLXsX1WBbtQbyozHcKY9IAAXUHNY6ThmG+5l0CotqPACVwOnG32gDXUx1K4cMFAtfSGJc7TlGsyNig8GipfyjXqD2kSqI1NjI1G5o8MUs9Jc66CdjI7fXl7iHTh235Z8QUcgBL3DaMqsTqZZm3USIaI2rK6Hbqiif10hOd2j8nzQjUENu3nMpvQQ8pj+o=
 before_install:
   - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 install:
-  - go get -u github.com/jteeuwen/go-bindata/...
   - dep ensure
 script:
-  - go test -v ./...
+  - make test
 before_deploy:
   - go get github.com/laher/goxc
   - go get github.com/tcnksm/ghr
