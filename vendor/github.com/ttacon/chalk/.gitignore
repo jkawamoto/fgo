@@ -1,5 +1,3 @@
-### https://raw.github.com/github/gitignore/f2ce448f2ba7a092da05482ceca99209127c0884/Go.gitignore
-
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 *.o
 *.a
@@ -23,10 +21,3 @@ _testmain.go
 
 *.exe
 *.test
-*.prof
-
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
-# Packaged files
-/pkg/
