@@ -184,7 +184,7 @@ func TestPrepareDirectory(t *testing.T) {
 
 		fp, err := ioutil.TempFile("", "fgo-test2")
 		if err != nil {
-			t.Fatal("faild to prepare a temporary directory:", err)
+			t.Fatal("failed to prepare a temporary directory:", err)
 		}
 		defer os.Remove(fp.Name())
 		fp.Close()
@@ -198,7 +198,7 @@ func TestPrepareDirectory(t *testing.T) {
 	t.Run("without any collisions", func(t *testing.T) {
 		fp, err := ioutil.TempFile("", "fgo-test3")
 		if err != nil {
-			t.Fatal("faild to prepare a temporary directory:", err)
+			t.Fatal("failed to prepare a temporary directory:", err)
 		}
 		fp.Close()
 		os.Remove(fp.Name())

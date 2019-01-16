@@ -1,3 +1,9 @@
+## 0.3.4 (2019-01-16)
+### Fixed
+- include vendor repositories 
+- switch to go-assets from go-bindata
+
+
 ## 0.3.3 (2018-07-02)
 ### Fixed
 - Version numbers in the download links

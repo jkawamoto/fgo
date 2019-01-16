@@ -1,7 +1,7 @@
 /*
  * update_test.go
  *
- * Copyright (c) 2016-2018 Junpei Kawamoto
+ * Copyright (c) 2016-2019 Junpei Kawamoto
  *
  * This software is released under the MIT License.
  *
@@ -28,12 +28,12 @@ func TestCmdUpdate(t *testing.T) {
 
 	pkgs, err := filepath.Glob(filepath.Join(TestPackageRoot, "*"))
 	if err != nil {
-		t.Fatal("faild to find test packages:", err)
+		t.Fatal("failed to find test packages:", err)
 	}
 
 	dir, err := ioutil.TempDir("", "fgo")
 	if err != nil {
-		t.Fatal("faild to create a temporary directory:", err)
+		t.Fatal("failed to create a temporary directory:", err)
 	}
 	defer os.RemoveAll(dir)
 
