@@ -1,7 +1,7 @@
 /*
  * release.go
  *
- * Copyright (c) 2016-2018 Junpei Kawamoto
+ * Copyright (c) 2016-2019 Junpei Kawamoto
  *
  * This software is released under the MIT License.
  *
@@ -29,7 +29,13 @@ func ReleaseNote(filename, version string) (note string, err error) {
 	if err != nil {
 		return
 	}
-	defer fp.Close()
+	defer func() {
+		//noinspection SpellCheckingInspection
+		cerr := fp.Close()
+		if cerr != nil {
+			err = fmt.Errorf("failed to close %v: %v: %v", filename, cerr, err)
+		}
+	}()
 
 	exp := regexp.MustCompile(fmt.Sprintf(`^(#+)\s*%v.*$`, version))
 	s := bufio.NewScanner(fp)
