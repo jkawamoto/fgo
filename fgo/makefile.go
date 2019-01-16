@@ -11,7 +11,7 @@
 package fgo
 
 // MakefileAsset defines the asset name of Makefile.
-const MakefileAsset = "assets/Makefile"
+const MakefileAsset = "/Makefile"
 
 // Makefile defines variables to generate a Makefile.
 type Makefile struct {
